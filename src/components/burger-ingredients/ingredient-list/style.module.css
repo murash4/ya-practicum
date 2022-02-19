@@ -1,0 +1,26 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.item {
+  position: relative;
+  width: calc(50% - 12px);
+  margin-right: 0;
+  text-align: center;
+}
+
+.price_wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.price {
+  margin-right: 9px;
+}
+
+.item_name {
+  min-height: 48px;
+}

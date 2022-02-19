@@ -1,1 +1,9 @@
-.app {}
+.main_container {
+  max-width: 1240px;
+  max-height: calc(100vh - 91px);
+  margin: 91px auto 0;
+}
+
+.main_container_title {
+  width: 100%;
+}
