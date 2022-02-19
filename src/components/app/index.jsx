@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './style.module.css';
 import AppHeader from '../app-header'
 import BurgerIngredients from '../burger-ingredients'
-import mockData from '../../utils/data'
+import { mockData } from '../../utils/data'
 
 function App() {
   return (
