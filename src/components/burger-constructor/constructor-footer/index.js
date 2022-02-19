@@ -3,7 +3,7 @@ import {
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import style from './style.module.css'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 export default function ConstructorFooter (props) {
   /**
