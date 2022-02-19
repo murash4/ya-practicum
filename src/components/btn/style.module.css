@@ -1,0 +1,22 @@
+.btn {
+  display: inline-flex;
+  justify-items: center;
+  align-items: center;
+  box-shadow: none;
+  border: none;
+  border-radius: 40px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.btn:last-child {
+  margin-right: 0;
+}
+
+.btn:hover {
+  opacity: 0.7;
+}
+
+.icon_wrap {
+  display: block;
+}
