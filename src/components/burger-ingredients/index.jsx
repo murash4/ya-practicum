@@ -2,7 +2,6 @@ import Tabs from './tabs'
 import IngredientList from './ingredient-list'
 import style from './style.module.css'
 import SimpleBar from 'simplebar-react'
-import 'simplebar/dist/simplebar.min.css'
 
 export default function BurgerIngredients (props) {
   /**

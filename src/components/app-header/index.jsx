@@ -10,7 +10,7 @@ import styles from './style.module.css'
 export default function AppHeader () {
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
-      <div className={styles.header_inner}>
+      <nav className={styles.header_inner}>
         <div>
           <Btn
             icon={<BurgerIcon type="primary" />}
@@ -35,7 +35,7 @@ export default function AppHeader () {
             color="secondary"
           />
         </div>
-      </div>
+      </nav>
     </header>
   )
 }

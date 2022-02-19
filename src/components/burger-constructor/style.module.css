@@ -1,0 +1,8 @@
+.section {
+  width: calc( 50% - 20px);
+  box-sizing: border-box;
+}
+
+.simplebar {
+  height: calc(100vh - 335px);
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
+import 'simplebar/dist/simplebar.min.css'
 import './assets/css/simplebar.css'
 import App from './components/app'
 // import reportWebVitals from './reportWebVitals';

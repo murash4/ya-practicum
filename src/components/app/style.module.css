@@ -1,5 +1,8 @@
 .main_container {
-  max-width: 1240px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 1240px;
   max-height: calc(100vh - 91px);
   margin: 91px auto 0;
 }
