@@ -1,4 +1,5 @@
 import styles from './style.module.css'
+import PropTypes from 'prop-types'
 
 export default function Btn (props) {
   return (
@@ -11,4 +12,9 @@ export default function Btn (props) {
       </span>
     </button>
   )
+}
+
+Btn.propTypes = {
+  icon: PropTypes.element,
+  text: PropTypes.string
 }

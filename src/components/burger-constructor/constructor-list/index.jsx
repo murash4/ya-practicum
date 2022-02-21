@@ -1,6 +1,8 @@
 import style from './style.module.css'
 import ConstructorListItem from './constructor-list-item'
 import SimpleBar from 'simplebar-react'
+import PropTypes from 'prop-types'
+import { ingredientType } from '../../../utils/types'
 
 export default function ConstructorList (props) {
   return (
@@ -17,14 +19,19 @@ export default function ConstructorList (props) {
             <ConstructorListItem
               key={item._id}
               item={item}
+              postision="middle"
             />
           ))}
       </SimpleBar>
 
       <ConstructorListItem
-        item={props.data[props.data.length - 1]}
+        item={props.data[0]}
         postision="bottom"
       />
     </div>
   )
+}
+
+ConstructorList.propTypes = {
+  data: PropTypes.arrayOf(ingredientType.isRequired)
 }

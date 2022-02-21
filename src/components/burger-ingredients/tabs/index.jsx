@@ -1,5 +1,6 @@
 import React from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+import PropTypes from 'prop-types'
 
 export default function Tabs (props) {
   return (
@@ -16,4 +17,15 @@ export default function Tabs (props) {
       ))}
     </div>
   )
+}
+
+Tabs.propTypes = {
+  types: PropTypes.arrayOf(PropTypes.string),
+  current: PropTypes.string,
+  setCurrent: PropTypes.func,
+  typesName: PropTypes.shape({
+    sauce: PropTypes.string,
+    main: PropTypes.string,
+    bun: PropTypes.string
+  })
 }
