@@ -35,7 +35,7 @@ export default function ConstructorListItem (props) {
       <ConstructorElement
         className={`${style.item}`}
         type={props.postision}
-        isLocked={props.postision}
+        isLocked={props.postision === 'top' || props.postision === 'bottom'}
         text={getText(props.item.name, props.postision)}
         price={props.item.price}
         thumbnail={props.item.image_mobile}

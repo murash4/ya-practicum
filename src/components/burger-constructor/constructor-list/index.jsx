@@ -14,7 +14,7 @@ export default function ConstructorList (props) {
 
       <SimpleBar className={`${style.simplebar} mb-4`}>
         {props.data
-          .filter((item, index) => (index !== 0 && index !== props.data.length - 1))
+          .filter((item, index) => (index !== 0))
           .map((item) => (
             <ConstructorListItem
               key={item._id}
