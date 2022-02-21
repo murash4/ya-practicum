@@ -9,7 +9,7 @@ export default function ConstructorList (props) {
     <div className={`${style.list} mb-10`}>
       <ConstructorListItem
         item={props.data[0]}
-        postision="top"
+        position="top"
       />
 
       <SimpleBar className={`${style.simplebar} mb-4`}>
@@ -19,14 +19,13 @@ export default function ConstructorList (props) {
             <ConstructorListItem
               key={item._id}
               item={item}
-              postision="middle"
             />
           ))}
       </SimpleBar>
 
       <ConstructorListItem
         item={props.data[0]}
-        postision="bottom"
+        position="bottom"
       />
     </div>
   )
