@@ -6,7 +6,10 @@ import PropTypes from 'prop-types'
 export default function Modal (props) {
   return (
     <div className={`${style.modal} pr-15 pl-15`}>
-      <CloseIcon type="primary" />
+      <CloseIcon
+        onClick={props.close}
+        type="primary"
+      />
 
       <div>
         {props.content}
