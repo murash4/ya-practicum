@@ -1,26 +1,49 @@
-import React from 'react';
-import styles from './style.module.css';
+import React from 'react'
+import styles from './style.module.css'
 import AppHeader from '../app-header'
 import BurgerIngredients from '../burger-ingredients'
 import BurgerConstructor from '../burger-constructor'
-import { mockData } from '../../utils/data'
 
-function App() {
+function App () {
+  const [ingredients, setTngredients] = React.useState([])
+  const ingredientsUrl = 'https://norma.nomoreparties.space/api/ingredients'
+
+  /**
+   * Получаение и запись списка ингредиентов в state
+   */
+  const getIngredients = () => {
+    fetch(ingredientsUrl)
+      .then(res => res.json())
+      .then(res => {
+        setTngredients([...ingredients, ...res.data])
+      })
+      .catch(e => {
+        console.log('Ошибка запроса к api: ', e)
+      })
+  }
+
+  React.useEffect(() => {
+    getIngredients()
+  }, [])
+
   return (
     <>
       <AppHeader />
 
-      <main className={`${styles.main_container} pt-10`}>
-        <p className={`${styles.main_container_title} text text_type_main-large mb-5`}>
-          Соберите бургер
-        </p>
+      {
+        ingredients.length &&
+        <main className={`${styles.main_container} pt-10`}>
+          <p className={`${styles.main_container_title} text text_type_main-large mb-5`}>
+            Соберите бургер
+          </p>
 
-        <BurgerIngredients data={mockData} />
+          <BurgerIngredients data={ingredients} />
 
-        <BurgerConstructor data={mockData} />
-      </main>
+          <BurgerConstructor data={ingredients} />
+        </main>
+      }
     </>
-  );
+  )
 }
 
 export default App;
