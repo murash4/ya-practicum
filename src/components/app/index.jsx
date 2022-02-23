@@ -4,6 +4,7 @@ import AppHeader from '../app-header'
 import BurgerIngredients from '../burger-ingredients'
 import BurgerConstructor from '../burger-constructor'
 import CustomModal from '../hocs/custom-modal'
+import OrderDetails from '../order-details'
 
 function App () {
   const [ingredients, setTngredients] = React.useState([])
@@ -44,7 +45,7 @@ function App () {
         </main>
       }
 
-      <CustomModal />
+      <CustomModal content={<OrderDetails />}/>
     </>
   )
 }
