@@ -4,7 +4,7 @@ import AppHeader from '../app-header'
 import BurgerIngredients from '../burger-ingredients'
 import BurgerConstructor from '../burger-constructor'
 import CustomModal from '../hocs/custom-modal'
-import OrderDetails from '../order-details'
+import IngredientDetails from '../ingredient-details'
 
 function App () {
   const [ingredients, setTngredients] = React.useState([])
@@ -42,10 +42,10 @@ function App () {
           <BurgerIngredients data={ingredients} />
 
           <BurgerConstructor data={ingredients} />
+
+          <CustomModal content={<IngredientDetails data={ingredients[0]} />}/>
         </main>
       }
-
-      <CustomModal content={<OrderDetails />}/>
     </>
   )
 }
