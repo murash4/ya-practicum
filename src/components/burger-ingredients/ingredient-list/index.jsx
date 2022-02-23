@@ -57,10 +57,9 @@ export default function IngredientList (props) {
 
       {
         selectedItem &&
-        <CustomModal
-          content={<IngredientDetails data={selectedItem} />}
-          close={resetSelectedItem}
-        />
+        <CustomModal close={resetSelectedItem}>
+          <IngredientDetails data={selectedItem} />
+        </CustomModal>
       }
     </>
   )

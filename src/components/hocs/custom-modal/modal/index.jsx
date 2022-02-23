@@ -12,12 +12,12 @@ export default function Modal (props) {
       />
 
       <div>
-        {props.content}
+        {props.children}
       </div>
     </div>
   )
 }
 
 Modal.propTypes = {
-  content: PropTypes.element
+  children: PropTypes.element
 }

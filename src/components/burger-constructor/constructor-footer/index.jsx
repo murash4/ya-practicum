@@ -55,10 +55,9 @@ export default function ConstructorFooter (props) {
 
      {
        isVisiblePopup &&
-       <CustomModal
-         content={<OrderDetails />}
-         close={hidePopup}
-       />
+       <CustomModal close={hidePopup}>
+         <OrderDetails />
+       </CustomModal>
      }
    </>
   )

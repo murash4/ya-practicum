@@ -28,10 +28,9 @@ export default function CustomModal (props) {
 
   return ReactDOM.createPortal(
     <div className={style.custom_modal}>
-      <Modal
-        content={props.content}
-        close={props.close}
-      />
+      <Modal close={props.close}>
+        {props.children}
+      </Modal>
 
       <ModalOverlay close={props.close} />
     </div>,
@@ -40,6 +39,6 @@ export default function CustomModal (props) {
 }
 
 CustomModal.propTypes = {
-  content: PropTypes.element,
+  children: PropTypes.element,
   close: PropTypes.func.isRequired
 }
