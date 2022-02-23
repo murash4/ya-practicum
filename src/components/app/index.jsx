@@ -3,6 +3,7 @@ import styles from './style.module.css'
 import AppHeader from '../app-header'
 import BurgerIngredients from '../burger-ingredients'
 import BurgerConstructor from '../burger-constructor'
+import CustomModal from '../hocs/custom-modal'
 
 function App () {
   const [ingredients, setTngredients] = React.useState([])
@@ -42,6 +43,8 @@ function App () {
           <BurgerConstructor data={ingredients} />
         </main>
       }
+
+      <CustomModal />
     </>
   )
 }
