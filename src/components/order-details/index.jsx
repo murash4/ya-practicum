@@ -12,7 +12,7 @@ export default function OrderDetails () {
       </p>
       <img
         src={checkboxImg}
-        alt=""
+        alt="Готово"
         className={`${style.checkbox} mb-15`}
       />
       <p className="text text_type_main-default mb-2">

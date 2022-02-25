@@ -15,6 +15,7 @@ export default function Btn (props) {
 }
 
 Btn.propTypes = {
-  icon: PropTypes.element,
-  text: PropTypes.string
+  icon: PropTypes.element.isRequired,
+  text: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired
 }

@@ -29,7 +29,7 @@ export default function ConstructorListItem (props) {
    * Возвращает флаг, что ингредиент не находится в скролящемся блоке (булка)
    * @return {boolean}
    */
-  function isBul () {
+  function isBun () {
     return !props.position
   }
 
@@ -37,13 +37,13 @@ export default function ConstructorListItem (props) {
   return (
     <div className={`${style.item} pl-4 pr-4 mb-4`}>
       <div className={`${style.drag_ic_wrap}`}>
-        {isBul() && <DragIcon type="primary" />}
+        {isBun() && <DragIcon type="primary" />}
       </div>
 
       <ConstructorElement
         className={`${style.item}`}
         type={props.position}
-        isLocked={!isBul()}
+        isLocked={!isBun()}
         text={getText(props.item.name, props.position)}
         price={props.item.price}
         thumbnail={props.item.image_mobile}
@@ -53,6 +53,6 @@ export default function ConstructorListItem (props) {
 }
 
 ConstructorListItem.propTypes = {
-  item: ingredientType,
+  item: ingredientType.isRequired,
   position: PropTypes.oneOf(['top', 'bottom', undefined])
 }

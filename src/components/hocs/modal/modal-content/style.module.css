@@ -1,4 +1,4 @@
-.modal {
+.modal_content {
   position: relative;
   z-index: 1;
   width: 720px;
@@ -9,7 +9,7 @@
   background-color: #1C1C21;
 }
 
-.modal > svg {
+.modal_content > svg {
   position: absolute;
   right: 40px;
   top: 60px;

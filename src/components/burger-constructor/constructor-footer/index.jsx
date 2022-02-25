@@ -6,7 +6,7 @@ import {
 import style from './style.module.css'
 import PropTypes from 'prop-types'
 import { ingredientType } from '../../../utils/types'
-import CustomModal from '../../hocs/custom-modal'
+import Modal from '../../hocs/modal'
 import OrderDetails from '../../order-details'
 
 export default function ConstructorFooter (props) {
@@ -55,14 +55,14 @@ export default function ConstructorFooter (props) {
 
      {
        isVisiblePopup &&
-       <CustomModal close={hidePopup}>
+       <Modal close={hidePopup}>
          <OrderDetails />
-       </CustomModal>
+       </Modal>
      }
    </>
   )
 }
 
 ConstructorFooter.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired)
+  data: PropTypes.arrayOf(ingredientType).isRequired
 }

@@ -6,16 +6,16 @@ import BurgerConstructor from '../burger-constructor'
 
 function App () {
   const [ingredients, setTngredients] = React.useState([])
-  const ingredientsUrl = 'https://norma.nomoreparties.space/api/ingredients'
+  const apiUrl = 'https://norma.nomoreparties.space/api/'
 
   /**
    * Получаение и запись списка ингредиентов в state
    */
   const getIngredients = () => {
-    fetch(ingredientsUrl)
-      .then(res => res.json())
+    fetch(`${apiUrl}ingredients`)
+      .then(res => res.ok && res.json())
       .then(res => {
-        setTngredients([...ingredients, ...res.data])
+        setTngredients([...res.data])
       })
       .catch(e => {
         console.log('Ошибка запроса к api: ', e)
@@ -42,8 +42,6 @@ function App () {
           <BurgerConstructor data={ingredients} />
         </main>
       }
-
-      <div id="custom-modal"/>
     </>
   )
 }
