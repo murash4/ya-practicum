@@ -3,10 +3,7 @@ import { ingredientType } from '../../utils/types'
 
 export default function IngredientDetails (props) {
   return (
-    <div className={`${style.ingredient_details} pt-10 pb-15`}>
-      <h2 className={`${style.ingredient_details_title} text text_type_main-large`}>
-        Детали ингредиента
-      </h2>
+    <div className={`${style.ingredient_details} pb-15`}>
       <img
         src={props.data.image_large}
         alt={props.data.name}

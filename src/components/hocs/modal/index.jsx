@@ -30,7 +30,15 @@ export default function CustomModal (props) {
   return ReactDOM.createPortal(
     <div className={style.modal}>
       <ModalContent close={props.close}>
-        {props.children}
+        <>
+          {
+            props.title &&
+            <h2 className={`${style.modal_title} text text_type_main-large mt-10`}>
+              {props.title}
+            </h2>
+          }
+          {props.children}
+        </>
       </ModalContent>
 
       <ModalOverlay close={props.close} />
@@ -40,6 +48,7 @@ export default function CustomModal (props) {
 }
 
 CustomModal.propTypes = {
+  title: PropTypes.string,
   children: PropTypes.element.isRequired,
   close: PropTypes.func.isRequired
 }

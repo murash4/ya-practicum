@@ -2,13 +2,6 @@
   text-align: center;
 }
 
-.ingredient_details_title {
-  display: flex;
-  align-items: center;
-  min-height: 64px;
-  text-align: left;
-}
-
 .composition {
   display: flex;
   justify-content: center;

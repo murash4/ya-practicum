@@ -61,7 +61,10 @@ export default function IngredientList (props) {
 
       {
         selectedItem &&
-        <Modal close={resetSelectedItem}>
+        <Modal
+          title="Детали ингредиента"
+          close={resetSelectedItem}
+        >
           <IngredientDetails data={selectedItem} />
         </Modal>
       }
