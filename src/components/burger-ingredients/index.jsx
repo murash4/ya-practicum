@@ -9,17 +9,9 @@ import { ingredientType } from '../../utils/types'
 export default function BurgerIngredients (props) {
   const [currentIngredientType, setCurrent] = React.useState('bun')
   const typesName = {
-    sauce: 'Соусы',
+    bun: 'Булки',
     main: 'Начинки',
-    bun: 'Булки'
-  }
-
-  /**
-   * Возвращает ингредиенты, отфильтрованные по типу (булки/соусы/начинки)
-   * @return {array}
-   */
-  function filteredIngredients () {
-    return props.data.filter(item => item.type === currentIngredientType)
+    sauce: 'Соусы'
   }
 
   /**
@@ -43,17 +35,26 @@ export default function BurgerIngredients (props) {
         setCurrent={setCurrent}
       />
 
-      <p className="text text_type_main-medium mb-6">
-        {typesName[currentIngredientType]}
-      </p>
-
       <SimpleBar className={style.simplebar}>
-        <IngredientList data={filteredIngredients()} />
+        {
+          Object.keys(typesName).map(name => {
+            const filteredData = props.data.filter(ingredient => ingredient.type === name)
+
+            return (
+              <IngredientList
+                key={name}
+                data={filteredData}
+                typesName={typesName}
+                typeName={name}
+              />
+            )
+          })
+        }
       </SimpleBar>
     </section>
   )
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired)
+  data: PropTypes.arrayOf(ingredientType).isRequired
 }

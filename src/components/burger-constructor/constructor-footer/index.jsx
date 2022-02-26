@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Button,
   CurrencyIcon
@@ -5,8 +6,12 @@ import {
 import style from './style.module.css'
 import PropTypes from 'prop-types'
 import { ingredientType } from '../../../utils/types'
+import Modal from '../../hocs/modal'
+import OrderDetails from '../../order-details'
 
 export default function ConstructorFooter (props) {
+  const [isVisiblePopup, setVisiblePopup] = React.useState(false)
+
   /**
    * Возвращает сумму всех ингредиентов
    * @param {array} arr
@@ -16,24 +21,48 @@ export default function ConstructorFooter (props) {
     return arr.reduce((acc, item) => acc + item.price, 0)
   }
 
+  /**
+   * Показ модалки с информацией о заказе
+   */
+  const showPopup = () => {
+    setVisiblePopup(true)
+  }
+
+  /**
+   * Скрытие модалки с информацией о заказе
+   */
+  const hidePopup = () => {
+    setVisiblePopup(false)
+  }
+
   return (
-    <div className={`${style.footer} pl-4 pr-4`}>
-      <div className={`${style.price_wrap} mr-10`}>
-        <p className={`${style.all_sum} text text_type_digits-medium`}>
-          {getAllSum(props.data)}
-        </p>
-        <CurrencyIcon type="primary" />
-      </div>
-      <Button
-        type="primary"
-        size="large"
-      >
-        Оформить заказ
-      </Button>
-    </div>
+   <>
+     <div className={`${style.footer} pl-4 pr-4`}>
+       <div className={`${style.price_wrap} mr-10`}>
+         <p className={`${style.all_sum} text text_type_digits-medium`}>
+           {getAllSum(props.data)}
+         </p>
+         <CurrencyIcon type="primary" />
+       </div>
+       <Button
+         type="primary"
+         size="large"
+         onClick={showPopup}
+       >
+         Оформить заказ
+       </Button>
+     </div>
+
+     {
+       isVisiblePopup &&
+       <Modal close={hidePopup}>
+         <OrderDetails />
+       </Modal>
+     }
+   </>
   )
 }
 
 ConstructorFooter.propTypes = {
-  data: PropTypes.arrayOf(ingredientType.isRequired)
+  data: PropTypes.arrayOf(ingredientType).isRequired
 }

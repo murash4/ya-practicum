@@ -14,3 +14,9 @@ export const ingredientType = PropTypes.shape({
   image_large: PropTypes.string,
   __v: PropTypes.number,
 })
+
+export const ingredientsNameType = PropTypes.shape({
+  sauce: PropTypes.string,
+  main: PropTypes.string,
+  bun: PropTypes.string
+})

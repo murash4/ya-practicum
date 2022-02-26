@@ -9,6 +9,7 @@
   width: calc(50% - 12px);
   margin-right: 0;
   text-align: center;
+  cursor: pointer;
 }
 
 .price_wrap {
