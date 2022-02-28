@@ -8,9 +8,12 @@ import PropTypes from 'prop-types'
 import { ingredientType } from '../../../utils/types'
 import Modal from '../../hocs/modal'
 import OrderDetails from '../../order-details'
+import { apiUrl } from '../../../utils/api'
 
 export default function ConstructorFooter (props) {
   const [isVisiblePopup, setVisiblePopup] = React.useState(false)
+  const [order, setOrder] = React.useState({})
+  const [isLoading, setIsLoading] = React.useState(false)
 
   /**
    * Возвращает сумму всех ингредиентов
@@ -18,7 +21,13 @@ export default function ConstructorFooter (props) {
    * @return {number}
    */
   function getAllSum (arr) {
-    return arr.reduce((acc, item) => acc + item.price, 0)
+    return arr.reduce((acc, item) => {
+      if (item.type === 'bun') {
+        return acc + item.price * 2
+      }
+
+      return acc + item.price
+    }, 0)
   }
 
   /**
@@ -35,6 +44,53 @@ export default function ConstructorFooter (props) {
     setVisiblePopup(false)
   }
 
+  /**
+   * Возвращает массив с id всех ингредиентов
+   * @return {array}
+   */
+  const getAllIds = () => {
+    const array = [...props.data, props.data.find(item => item.type === 'bun')]
+
+    return array.map(item => item._id)
+  }
+
+  /**
+   * Получает номер заказа с бэкенда
+   */
+  const getOrderNumber = () => {
+    if (isLoading) {
+      return
+    }
+
+    const data = JSON.stringify({ ingredients: getAllIds() })
+
+    setIsLoading(true)
+    fetch(`${apiUrl}orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: data
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("статус не 'ok'")
+        }
+
+        return res.json()
+      })
+      .then(res => {
+        setOrder(res)
+        showPopup()
+      })
+      .catch(e => {
+        console.log('Ошибка запроса к api: ', e)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
+
   return (
    <>
      <div className={`${style.footer} pl-4 pr-4`}>
@@ -47,7 +103,7 @@ export default function ConstructorFooter (props) {
        <Button
          type="primary"
          size="large"
-         onClick={showPopup}
+         onClick={getOrderNumber}
        >
          Оформить заказ
        </Button>
@@ -56,7 +112,7 @@ export default function ConstructorFooter (props) {
      {
        isVisiblePopup &&
        <Modal close={hidePopup}>
-         <OrderDetails />
+         <OrderDetails orderNumber={order.order.number} />
        </Modal>
      }
    </>

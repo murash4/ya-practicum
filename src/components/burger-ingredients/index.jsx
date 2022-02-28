@@ -2,11 +2,11 @@ import Tabs from './tabs'
 import IngredientList from './ingredient-list'
 import style from './style.module.css'
 import SimpleBar from 'simplebar-react'
-import PropTypes from 'prop-types'
 import React from 'react'
-import { ingredientType } from '../../utils/types'
+import { IngredientsContext } from '../app'
 
-export default function BurgerIngredients (props) {
+export default function BurgerIngredients () {
+  const ingredients = React.useContext(IngredientsContext)
   const [currentIngredientType, setCurrent] = React.useState('bun')
   const typesName = {
     bun: 'Булки',
@@ -18,7 +18,7 @@ export default function BurgerIngredients (props) {
    * Возвращает все названия типов ингредиентов
    * @return {array}
    */
-  const ingredientTypes = props.data.reduce((acc, item) => {
+  const ingredientTypes = ingredients.reduce((acc, item) => {
     if (!acc.includes(item.type)) {
       acc.push(item.type)
     }
@@ -38,7 +38,7 @@ export default function BurgerIngredients (props) {
       <SimpleBar className={style.simplebar}>
         {
           Object.keys(typesName).map(name => {
-            const filteredData = props.data.filter(ingredient => ingredient.type === name)
+            const filteredData = ingredients.filter(ingredient => ingredient.type === name)
 
             return (
               <IngredientList
@@ -53,8 +53,4 @@ export default function BurgerIngredients (props) {
       </SimpleBar>
     </section>
   )
-}
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
 }

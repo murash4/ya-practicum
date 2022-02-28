@@ -5,7 +5,7 @@ import style from './style.module.css'
 import PropTypes from 'prop-types'
 import React from "react";
 
-export default function CustomModal (props) {
+export default function Modal (props) {
   const modalRoot = document.getElementById('modal')
   const { close } = props
 
@@ -47,7 +47,7 @@ export default function CustomModal (props) {
   )
 }
 
-CustomModal.propTypes = {
+Modal.propTypes = {
   title: PropTypes.string,
   children: PropTypes.element.isRequired,
   close: PropTypes.func.isRequired
