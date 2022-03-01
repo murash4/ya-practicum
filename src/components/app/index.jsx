@@ -1,11 +1,11 @@
 import React from 'react'
-import styles from './style.module.css'
+import { apiUrl } from '../../utils/api'
 import AppHeader from '../app-header'
 import BurgerIngredients from '../burger-ingredients'
 import BurgerConstructor from '../burger-constructor'
-import { apiUrl } from '../../utils/api'
+import styles from './style.module.css'
 
-export const IngredientsContext = React.createContext()
+import { IngredientsContext } from '../../services/contexts'
 
 function App () {
   const [ingredients, setTngredients] = React.useState([])
@@ -40,17 +40,17 @@ function App () {
 
       {
         ingredients.length &&
-        <IngredientsContext.Provider value={ingredients}>
           <main className={`${styles.main_container} pt-10`}>
             <p className={`${styles.main_container_title} text text_type_main-large mb-5`}>
               Соберите бургер
             </p>
 
+          <IngredientsContext.Provider value={ingredients}>
             <BurgerIngredients />
 
             <BurgerConstructor />
-          </main>
-        </IngredientsContext.Provider>
+          </IngredientsContext.Provider>
+        </main>
       }
     </>
   )

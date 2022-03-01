@@ -1,18 +1,19 @@
-import Tabs from './tabs'
-import IngredientList from './ingredient-list'
-import style from './style.module.css'
-import SimpleBar from 'simplebar-react'
 import React from 'react'
-import { IngredientsContext } from '../app'
+import SimpleBar from 'simplebar-react'
+import IngredientList from './ingredient-list'
+import Tabs from './tabs'
+import { IngredientsContext } from '../../services/contexts'
+import style from './style.module.css'
+
+const typesName = {
+  bun: 'Булки',
+  main: 'Начинки',
+  sauce: 'Соусы'
+}
 
 export default function BurgerIngredients () {
   const ingredients = React.useContext(IngredientsContext)
   const [currentIngredientType, setCurrent] = React.useState('bun')
-  const typesName = {
-    bun: 'Булки',
-    main: 'Начинки',
-    sauce: 'Соусы'
-  }
 
   /**
    * Возвращает все названия типов ингредиентов
@@ -37,7 +38,7 @@ export default function BurgerIngredients () {
 
       <SimpleBar className={style.simplebar}>
         {
-          Object.keys(typesName).map(name => {
+          ingredientTypes.map(name => {
             const filteredData = ingredients.filter(ingredient => ingredient.type === name)
 
             return (

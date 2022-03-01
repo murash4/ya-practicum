@@ -1,8 +1,8 @@
-import style from './style.module.css'
-import ConstructorListItem from './constructor-list-item'
 import SimpleBar from 'simplebar-react'
 import PropTypes from 'prop-types'
 import { ingredientType } from '../../../utils/types'
+import ConstructorListItem from './constructor-list-item'
+import style from './style.module.css'
 
 export default function ConstructorList (props) {
   const notBunIngredients = props.data.filter((item, index) => (index !== 0))

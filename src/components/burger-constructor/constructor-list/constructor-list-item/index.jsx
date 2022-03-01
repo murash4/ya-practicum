@@ -1,10 +1,10 @@
-import style from './style.module.css'
 import {
   ConstructorElement,
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types'
 import { ingredientType } from '../../../../utils/types'
+import style from './style.module.css'
 
 export default function ConstructorListItem (props) {
   /**

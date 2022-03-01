@@ -1,9 +1,9 @@
+import React from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 import ModalContent from './modal-content'
 import ModalOverlay from './modal-overlay'
 import style from './style.module.css'
-import PropTypes from 'prop-types'
-import React from "react";
 
 export default function Modal (props) {
   const modalRoot = document.getElementById('modal')

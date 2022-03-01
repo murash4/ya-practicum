@@ -3,12 +3,12 @@ import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import style from './style.module.css'
 import PropTypes from 'prop-types'
+import { apiUrl } from '../../../utils/api'
 import { ingredientType } from '../../../utils/types'
 import Modal from '../../hocs/modal'
 import OrderDetails from '../../order-details'
-import { apiUrl } from '../../../utils/api'
+import style from './style.module.css'
 
 export default function ConstructorFooter (props) {
   const [isVisiblePopup, setVisiblePopup] = React.useState(false)

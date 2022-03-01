@@ -1,8 +1,8 @@
-import ConstructorList from './constructor-list'
-import ConstructorFooter from "./constructor-footer";
-import style from './style.module.css'
 import React from 'react'
-import {IngredientsContext} from '../app'
+import ConstructorList from './constructor-list'
+import ConstructorFooter from './constructor-footer'
+import { IngredientsContext } from '../../services/contexts'
+import style from './style.module.css'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -17,7 +17,7 @@ function reducer(state, action) {
 
 export default function BurgerConstructor () {
   const ingredients = React.useContext(IngredientsContext)
-  const [ingredientsState, dispatch] = React.useReducer(reducer, ingredients, undefined)
+  const [ingredientsState, dispatch] = React.useReducer(reducer, ingredients)
 
   React.useEffect(() => {
     // оставляем в ингредиентах только 1 булку
@@ -30,7 +30,7 @@ export default function BurgerConstructor () {
 
     dispatch({
       type: 'set',
-      payload: [...removeBun()]
+      payload: removeBun()
     })
   }, [ingredients])
 
