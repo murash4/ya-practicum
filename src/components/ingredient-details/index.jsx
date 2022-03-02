@@ -1,5 +1,5 @@
-import style from './style.module.css'
 import { ingredientType } from '../../utils/types'
+import style from './style.module.css'
 
 export default function IngredientDetails (props) {
   return (

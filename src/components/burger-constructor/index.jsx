@@ -1,19 +1,45 @@
+import React from 'react'
 import ConstructorList from './constructor-list'
-import ConstructorFooter from "./constructor-footer";
+import ConstructorFooter from './constructor-footer'
+import { IngredientsContext } from '../../services/contexts'
 import style from './style.module.css'
-import PropTypes from 'prop-types'
-import { ingredientType } from '../../utils/types'
 
-export default function BurgerConstructor (props) {
-  return (
-    <section className={`${style.section} pb-10`}>
-      <ConstructorList data={props.data} />
-
-      <ConstructorFooter data={props.data} />
-    </section>
-  )
+function reducer(state, action) {
+  switch (action.type) {
+    case 'set':
+      return action.payload
+    case 'clear':
+      return []
+    default:
+      return []
+  }
 }
 
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
+export default function BurgerConstructor () {
+  const ingredients = React.useContext(IngredientsContext)
+  const [ingredientsState, dispatch] = React.useReducer(reducer, ingredients)
+
+  React.useEffect(() => {
+    // оставляем в ингредиентах только 1 булку
+    const removeBun = () => {
+      return ingredients.filter((item, index) => (
+        (index === 0) ||
+        (index !== 0 && item.type !== 'bun'))
+      )
+    }
+
+    dispatch({
+      type: 'set',
+      payload: removeBun()
+    })
+  }, [ingredients])
+
+
+  return (
+    <section className={`${style.section} pb-10`}>
+      <ConstructorList data={ingredientsState} />
+
+      <ConstructorFooter data={ingredientsState} />
+    </section>
+  )
 }

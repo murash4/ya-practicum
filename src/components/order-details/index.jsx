@@ -1,11 +1,12 @@
 import style from './style.module.css'
 import checkboxImg from '../../images/done.png'
+import PropTypes from 'prop-types'
 
-export default function OrderDetails () {
+export default function OrderDetails (props) {
   return (
     <div className={`${style.order_details} pt-30 pb-30`}>
       <p className="text text_type_digits-large mb-8">
-        034536
+        {props.orderNumber}
       </p>
       <p className="text text_type_main-medium mb-15">
         идентификатор заказа
@@ -23,4 +24,8 @@ export default function OrderDetails () {
       </p>
     </div>
   )
+}
+
+OrderDetails.propTypes = {
+  orderNumber: PropTypes.number.isRequired
 }

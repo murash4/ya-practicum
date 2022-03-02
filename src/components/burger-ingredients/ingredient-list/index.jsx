@@ -1,10 +1,10 @@
 import React from 'react'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import style from './style.module.css'
 import PropTypes from 'prop-types'
-import {ingredientsNameType, ingredientType} from '../../../utils/types'
+import { ingredientsNameType, ingredientType } from '../../../utils/types'
 import Modal from '../../hocs/modal'
 import IngredientDetails from '../../ingredient-details'
+import style from './style.module.css'
 
 export default function IngredientList (props) {
   const [selectedItem, setSelectedItem] = React.useState(null)
