@@ -25,9 +25,9 @@ function App () {
               Соберите бургер
             </p>
 
-            {/*<BurgerIngredients />*/}
+            <BurgerIngredients />
 
-            {/*<BurgerConstructor />*/}
+            <BurgerConstructor />
         </main>
       }
     </>

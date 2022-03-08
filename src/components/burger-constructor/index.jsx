@@ -1,7 +1,7 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import ConstructorList from './constructor-list'
 import ConstructorFooter from './constructor-footer'
-import { IngredientsContext } from '../../services/contexts'
 import style from './style.module.css'
 
 function reducer(state, action) {
@@ -16,7 +16,7 @@ function reducer(state, action) {
 }
 
 export default function BurgerConstructor () {
-  const ingredients = React.useContext(IngredientsContext)
+  const ingredients = useSelector(state => state.ingredients.data)
   const [ingredientsState, dispatch] = React.useReducer(reducer, ingredients)
 
   React.useEffect(() => {

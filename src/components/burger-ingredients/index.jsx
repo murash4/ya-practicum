@@ -1,8 +1,8 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import SimpleBar from 'simplebar-react'
 import IngredientList from './ingredient-list'
 import Tabs from './tabs'
-import { IngredientsContext } from '../../services/contexts'
 import style from './style.module.css'
 
 const typesName = {
@@ -12,7 +12,7 @@ const typesName = {
 }
 
 export default function BurgerIngredients () {
-  const ingredients = React.useContext(IngredientsContext)
+  const ingredients = useSelector(state => state.ingredients.data)
   const [currentIngredientType, setCurrent] = React.useState('bun')
 
   /**
