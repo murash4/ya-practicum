@@ -1,14 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import { Provider } from 'react-redux'
+import { rootReducer } from './services/reducers'
+import App from './components/app'
 import './index.css'
 import 'simplebar/dist/simplebar.min.css'
 import './assets/css/simplebar.css'
-import App from './components/app'
 // import reportWebVitals from './reportWebVitals';
+
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
