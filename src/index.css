@@ -19,3 +19,7 @@ code {
 .secondary-color {
   color: #8585AD;
 }
+
+.pointer-none {
+  pointer-events: none;
+}

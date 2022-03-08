@@ -28,7 +28,7 @@ export function removeIngredient (ingredient) {
     } else {
       dispatch({
         type: REMOVE_NOT_BUN,
-        id: ingredient.uniqId
+        id: ingredient.id
       })
     }
   }

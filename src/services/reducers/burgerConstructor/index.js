@@ -1,4 +1,4 @@
-import { ADD_BUN, ADD_NOT_BUN, REMOVE_BUN, REMOVE_NOT_BUN } from '../../actions/burgerConstructor/constants'
+import { ADD_BUN, ADD_NOT_BUN, REMOVE_BUN, REMOVE_NOT_BUN, SET_INGREDIENT } from '../../actions/burgerConstructor/constants'
 
 const initialState = {
   items: [],
@@ -7,6 +7,12 @@ const initialState = {
 
 export const burgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_INGREDIENT: {
+      return {
+        ...state,
+        items: [...action.data]
+      }
+    }
     case ADD_BUN: {
       return {
         ...state,
@@ -18,7 +24,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
 
       obj.items.push({
         ...action.data,
-        uniqId: action.data._id + Date.now()
+        id: obj.items.length
       })
 
       return obj
@@ -32,7 +38,12 @@ export const burgerConstructorReducer = (state = initialState, action) => {
     case REMOVE_NOT_BUN: {
       const obj = { ...state }
 
-      obj.items = obj.items.filter(item => item.uniqId !== action.id)
+      obj.items = obj.items.filter(item => item.id !== action.id)
+      obj.items = obj.items.map((item, index) => {
+        item.id = index
+
+        return item
+      })
 
       return obj
     }
