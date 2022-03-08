@@ -1,13 +1,31 @@
 import SimpleBar from 'simplebar-react'
 import ConstructorListItem from './constructor-list-item'
 import style from './style.module.css'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useDrop } from 'react-dnd'
+import { addIngredient } from '../../../services/actions/burgerConstructor'
 
 export default function ConstructorList () {
   const { items, bun } = useSelector(state => state.burgerConstructor)
+  const dispatch = useDispatch()
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      dispatch(addIngredient(item))
+    },
+    collect: monitor => ({
+      isHover: monitor.isOver()
+    })
+  })
 
   return (
-    <div className={`${style.list} mb-10`}>
+    <div
+      ref={dropTarget}
+      className={`
+        ${style.list} mb-10
+        ${isHover ? style.draging : ''}
+      `}
+    >
       {bun &&
         <ConstructorListItem
           item={bun}
@@ -22,9 +40,9 @@ export default function ConstructorList () {
           mb-4`
         }
       >
-        {items.map((item) => (
+        {items.map((item, index) => (
             <ConstructorListItem
-              key={item._id}
+              key={Date.now() + index}
               item={item}
             />
           ))}

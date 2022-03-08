@@ -4,9 +4,15 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types'
 import { ingredientType } from '../../../../utils/types'
+import { useDispatch } from 'react-redux'
+import { removeIngredient } from '../../../../services/actions/burgerConstructor'
 import style from './style.module.css'
 
 export default function ConstructorListItem (props) {
+  const dispatch = useDispatch()
+  const removeItem = () => {
+    dispatch(removeIngredient(props.item))
+  }
   /**
    * Дополняем текст для верхней/нижней булки
    * @param {string} startText
@@ -47,6 +53,7 @@ export default function ConstructorListItem (props) {
         text={getText(props.item.name, props.position)}
         price={props.item.price}
         thumbnail={props.item.image_mobile}
+        handleClose={removeItem}
       />
     </div>
   )

@@ -16,7 +16,10 @@ export const burgerConstructorReducer = (state = initialState, action) => {
     case ADD_NOT_BUN: {
       const obj = { ...state }
 
-      obj.items.push(action.data)
+      obj.items.push({
+        ...action.data,
+        uniqId: action.data._id + Date.now()
+      })
 
       return obj
     }
@@ -29,7 +32,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
     case REMOVE_NOT_BUN: {
       const obj = { ...state }
 
-      obj.items = obj.items.filter(item => item._id !== action.id)
+      obj.items = obj.items.filter(item => item.uniqId !== action.id)
 
       return obj
     }
