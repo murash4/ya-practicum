@@ -6,3 +6,7 @@
 .simplebar {
   height: calc(100vh - 527px);
 }
+
+.simplebarNotBun {
+  height: calc(100vh - 351px);
+}

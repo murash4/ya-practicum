@@ -5,29 +5,25 @@ import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types'
-import { ingredientType } from '../../../utils/types'
 import Modal from '../../hocs/modal'
 import OrderDetails from '../../order-details'
 import style from './style.module.css'
 
-export default function ConstructorFooter (props) {
+export default function ConstructorFooter () {
   const { isLoading, error } = useSelector(state => state.orderDetails)
+  const { items, bun } = useSelector(state => state.burgerConstructor)
   const order = useSelector(state => state.orderDetails.data)
   const dispatch = useDispatch()
   const [isVisiblePopup, setVisiblePopup] = React.useState(false)
 
   /**
    * Возвращает сумму всех ингредиентов
-   * @param {array} arr
    * @return {number}
    */
-  function getAllSum (arr) {
-    return arr.reduce((acc, item) => {
-      if (item.type === 'bun') {
-        return acc + item.price * 2
-      }
+  function getAllSum () {
+    const arr = bun ? [...items, bun, bun] : items
 
+    return arr.reduce((acc, item) => {
       return acc + item.price
     }, 0)
   }
@@ -53,7 +49,7 @@ export default function ConstructorFooter (props) {
    * @return {array}
    */
   const getAllIds = () => {
-    const array = [...props.data, props.data.find(item => item.type === 'bun')]
+    const array = [...items, bun]
 
     return array.map(item => item._id)
   }
@@ -76,7 +72,7 @@ export default function ConstructorFooter (props) {
      <div className={`${style.footer} pl-4 pr-4`}>
        <div className={`${style.price_wrap} mr-10`}>
          <p className={`${style.all_sum} text text_type_digits-medium`}>
-           {getAllSum(props.data)}
+           {getAllSum()}
          </p>
          <CurrencyIcon type="primary" />
        </div>
@@ -98,8 +94,4 @@ export default function ConstructorFooter (props) {
      }
    </>
   )
-}
-
-ConstructorFooter.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
 }

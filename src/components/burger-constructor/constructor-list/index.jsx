@@ -1,12 +1,10 @@
 import SimpleBar from 'simplebar-react'
-import PropTypes from 'prop-types'
-import { ingredientType } from '../../../utils/types'
 import ConstructorListItem from './constructor-list-item'
 import style from './style.module.css'
+import { useSelector } from 'react-redux'
 
-export default function ConstructorList (props) {
-  const notBunIngredients = props.data.filter((item, index) => (index !== 0))
-  const bun = props.data.find(item => item.type === 'bun')
+export default function ConstructorList () {
+  const { items, bun } = useSelector(state => state.burgerConstructor)
 
   return (
     <div className={`${style.list} mb-10`}>
@@ -17,8 +15,14 @@ export default function ConstructorList (props) {
         />
       }
 
-      <SimpleBar className={`${style.simplebar} mb-4`}>
-        {notBunIngredients.map((item) => (
+      <SimpleBar
+        className={
+          `${style.simplebar}
+          ${!bun ? style.simplebarNotBun : ''}
+          mb-4`
+        }
+      >
+        {items.map((item) => (
             <ConstructorListItem
               key={item._id}
               item={item}
@@ -34,8 +38,4 @@ export default function ConstructorList (props) {
       }
     </div>
   )
-}
-
-ConstructorList.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
 }
