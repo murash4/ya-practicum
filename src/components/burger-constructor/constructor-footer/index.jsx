@@ -1,19 +1,21 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchOrder } from  '../../../services/actions/orderDetails'
 import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types'
-import { apiUrl } from '../../../utils/api'
 import { ingredientType } from '../../../utils/types'
 import Modal from '../../hocs/modal'
 import OrderDetails from '../../order-details'
 import style from './style.module.css'
 
 export default function ConstructorFooter (props) {
+  const { isLoading, error } = useSelector(state => state.orderDetails)
+  const order = useSelector(state => state.orderDetails.data)
+  const dispatch = useDispatch()
   const [isVisiblePopup, setVisiblePopup] = React.useState(false)
-  const [order, setOrder] = React.useState({})
-  const [isLoading, setIsLoading] = React.useState(false)
 
   /**
    * Возвращает сумму всех ингредиентов
@@ -33,9 +35,11 @@ export default function ConstructorFooter (props) {
   /**
    * Показ модалки с информацией о заказе
    */
-  const showPopup = () => {
-    setVisiblePopup(true)
-  }
+  const showPopup = useCallback(() => {
+      order && !error && setVisiblePopup(true)
+    },
+    [order, error, setVisiblePopup],
+  )
 
   /**
    * Скрытие модалки с информацией о заказе
@@ -58,38 +62,14 @@ export default function ConstructorFooter (props) {
    * Получает номер заказа с бэкенда
    */
   const getOrderNumber = () => {
-    if (isLoading) {
-      return
-    }
-
     const data = JSON.stringify({ ingredients: getAllIds() })
 
-    setIsLoading(true)
-    fetch(`${apiUrl}orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: data
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error("статус не 'ok'")
-        }
-
-        return res.json()
-      })
-      .then(res => {
-        setOrder(res)
-        showPopup()
-      })
-      .catch(e => {
-        console.log('Ошибка запроса к api: ', e)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
+    dispatch(fetchOrder(data))
   }
+
+  React.useEffect(() => {
+    showPopup()
+  }, [order, showPopup])
 
   return (
    <>
@@ -103,6 +83,7 @@ export default function ConstructorFooter (props) {
        <Button
          type="primary"
          size="large"
+         disabled={isLoading}
          onClick={getOrderNumber}
        >
          Оформить заказ
@@ -112,7 +93,7 @@ export default function ConstructorFooter (props) {
      {
        isVisiblePopup &&
        <Modal close={hidePopup}>
-         <OrderDetails orderNumber={order.order.number} />
+         <OrderDetails />
        </Modal>
      }
    </>
