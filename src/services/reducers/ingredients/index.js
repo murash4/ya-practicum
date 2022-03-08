@@ -5,7 +5,6 @@ const initialState = {
   isLoading: false
 }
 
-
 export const ingredientsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_INGREDIENTS: {

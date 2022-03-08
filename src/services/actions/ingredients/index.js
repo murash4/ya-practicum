@@ -13,7 +13,7 @@ export function fetchIngredients () {
       const result = await fetch(`${apiUrl}ingredients`)
 
       if (!result.ok) {
-        throw new Error("статус не 'ok'")
+        throw new Error('статус не \'ok\'')
       }
 
       const parsedData = await result.json()

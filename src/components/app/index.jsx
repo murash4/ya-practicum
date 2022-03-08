@@ -12,7 +12,7 @@ function App () {
 
   React.useEffect(() => {
     dispatch(fetchIngredients())
-  }, [])
+  }, [dispatch])
 
   return (
     <>

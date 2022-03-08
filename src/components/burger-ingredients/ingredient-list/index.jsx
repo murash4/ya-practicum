@@ -1,27 +1,35 @@
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import PropTypes from 'prop-types'
+import { SET_INGREDIENT_DETAILS, CLEAR_INGREDIENT_DETAILS } from '../../../services/actions/ingredientDetails'
 import { ingredientsNameType, ingredientType } from '../../../utils/types'
 import Modal from '../../hocs/modal'
 import IngredientDetails from '../../ingredient-details'
 import style from './style.module.css'
 
 export default function IngredientList (props) {
-  const [selectedItem, setSelectedItem] = React.useState(null)
+  const { ingredientDetails } = useSelector(state => state)
+  const dispatch = useDispatch()
 
   /**
    * Показать попап с деталями об ингредиенте
    * @param {object} item
    */
   const showDetails = (item) => {
-    setSelectedItem({...item})
+    dispatch({
+      type: SET_INGREDIENT_DETAILS,
+      data: item
+    })
   }
 
   /**
    * Скрыть попап с деталями об ингредиенте
    */
   const resetSelectedItem = () => {
-    setSelectedItem(null)
+    dispatch({
+      type: CLEAR_INGREDIENT_DETAILS
+    })
   }
 
   return (
@@ -60,12 +68,12 @@ export default function IngredientList (props) {
       </div>
 
       {
-        selectedItem &&
+        ingredientDetails &&
         <Modal
           title="Детали ингредиента"
           close={resetSelectedItem}
         >
-          <IngredientDetails data={selectedItem} />
+          <IngredientDetails />
         </Modal>
       }
     </>
