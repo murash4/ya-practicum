@@ -34,7 +34,10 @@ export default function IngredientList (props) {
 
   return (
     <>
-      <p className="text text_type_main-medium mb-6">
+      <p
+        ref={props.refLink}
+        className="text text_type_main-medium mb-6"
+      >
         {props.typesName[props.typeName]}
       </p>
       <div className={`${style.list} pt-6 pr-4 pb-2 pl-4`}>
