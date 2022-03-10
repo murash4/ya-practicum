@@ -1,14 +1,19 @@
-import { SET_LOADING, SET_ORDER, CLEAR_ERROR, SET_ERROR } from './constants'
+import {
+  SET_ORDER_DETAILS_LOADING,
+  SET_ORDER_DETAILS,
+  CLEAR_ORDER_DETAILS_ERROR,
+  SET_ORDER_DETAILS_ERROR
+} from './constants'
 import { apiUrl } from '../../../utils/api'
 import { checkResponse } from '../../../helpers/api'
 
 export function fetchOrder (ingredients) {
   return async dispatch => {
     dispatch({
-      type: CLEAR_ERROR
+      type: CLEAR_ORDER_DETAILS_ERROR
     })
     dispatch({
-      type: SET_LOADING,
+      type: SET_ORDER_DETAILS_LOADING,
       value: true
     })
 
@@ -23,17 +28,17 @@ export function fetchOrder (ingredients) {
       const parsedData = await checkResponse(result)
 
       dispatch({
-        type: SET_ORDER,
+        type: SET_ORDER_DETAILS,
         data: parsedData
       })
     } catch (e) {
       console.log('Ошибка запроса к api: ', e)
       dispatch({
-        type: SET_ERROR
+        type: SET_ORDER_DETAILS_ERROR
       })
     } finally {
       dispatch({
-        type: SET_LOADING,
+        type: SET_ORDER_DETAILS_LOADING,
         value: false
       })
     }
