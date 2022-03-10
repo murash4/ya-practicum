@@ -11,7 +11,7 @@ export default function Tabs (props) {
           key={index}
           value={item}
           active={props.current === item}
-          onClick={props.setCurrent}
+          onClick={props.toggleTab}
         >
           {props.typesName[item]}
         </Tab>
@@ -23,6 +23,6 @@ export default function Tabs (props) {
 Tabs.propTypes = {
   types: PropTypes.arrayOf(PropTypes.string).isRequired,
   current: PropTypes.string.isRequired,
-  setCurrent: PropTypes.func.isRequired,
+  toggleTab: PropTypes.func.isRequired,
   typesName: ingredientsNameType.isRequired
 }

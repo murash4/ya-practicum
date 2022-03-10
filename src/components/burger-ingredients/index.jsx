@@ -22,6 +22,11 @@ export default function BurgerIngredients () {
     sauce: useRef()
   }
 
+  const toggleTab = (type) => {
+    setCurrent(type)
+    scrollableNodeRef.current.scrollTop = refs[type].current.offsetTop
+  }
+
   /**
    * Возвращает все названия типов ингредиентов
    * @return {array}
@@ -69,7 +74,7 @@ export default function BurgerIngredients () {
         types={ingredientTypes}
         typesName={typesName}
         current={currentIngredientType}
-        setCurrent={setCurrent}
+        toggleTab={toggleTab}
       />
 
       <SimpleBar
