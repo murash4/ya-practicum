@@ -15,7 +15,7 @@ export default function Modal (props) {
      * @param {object} e
      */
     function closeByEsc (e) {
-      if (e.keyCode === 27) {
+      if (e.key === 'Escape') {
         close()
       }
     }

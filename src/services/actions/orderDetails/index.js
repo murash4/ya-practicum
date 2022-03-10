@@ -1,5 +1,6 @@
 import { SET_LOADING, SET_ORDER, CLEAR_ERROR, SET_ERROR } from './constants'
 import { apiUrl } from '../../../utils/api'
+import { checkResponse } from '../../../helpers/api'
 
 export function fetchOrder (ingredients) {
   return async dispatch => {
@@ -19,12 +20,7 @@ export function fetchOrder (ingredients) {
         },
         body: ingredients
       })
-
-      if (!result.ok) {
-        throw new Error('статус не \'ok\'')
-      }
-
-      const parsedData = await result.json()
+      const parsedData = await checkResponse(result)
 
       dispatch({
         type: SET_ORDER,
@@ -35,11 +31,11 @@ export function fetchOrder (ingredients) {
       dispatch({
         type: SET_ERROR
       })
+    } finally {
+      dispatch({
+        type: SET_LOADING,
+        value: false
+      })
     }
-
-    dispatch({
-      type: SET_LOADING,
-      value: false
-    })
   }
 }

@@ -68,5 +68,5 @@ IngredientList.propTypes = {
   data: PropTypes.arrayOf(ingredientType).isRequired,
   typesName: ingredientsNameType.isRequired,
   typeName: PropTypes.string.isRequired,
-  refLink: PropTypes.element.isRequired
+  refLink: PropTypes.object.isRequired
 }

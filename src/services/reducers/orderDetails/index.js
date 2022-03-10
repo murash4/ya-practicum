@@ -34,9 +34,7 @@ export const orderDetailsReducer = (state = initialState, action) => {
       }
     }
     default: {
-      return {
-        ...state
-      }
+      return state
     }
   }
 }

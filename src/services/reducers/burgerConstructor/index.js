@@ -71,9 +71,7 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       return obj
     }
     default: {
-      return {
-        ...state
-      }
+      return state
     }
   }
 }

@@ -1,22 +1,18 @@
-import { IS_LOADING, SET_INGREDIENTS} from './constants'
+import { SET_LOADING, SET_INGREDIENTS} from './constants'
 import { apiUrl } from '../../../utils/api'
+import { checkResponse } from '../../../helpers/api'
 
 export function fetchIngredients () {
   return async dispatch => {
     dispatch({
-      type: IS_LOADING,
+      type: SET_LOADING,
       value: true
     })
 
     // Получаение и запись списка ингредиентов в state
     try {
       const result = await fetch(`${apiUrl}ingredients`)
-
-      if (!result.ok) {
-        throw new Error('статус не \'ok\'')
-      }
-
-      const parsedData = await result.json()
+      const parsedData = await checkResponse(result)
 
       dispatch({
         type: SET_INGREDIENTS,
@@ -24,11 +20,11 @@ export function fetchIngredients () {
       })
     } catch (e) {
       console.log('Ошибка запроса к api: ', e)
+    } finally {
+      dispatch({
+        type: SET_LOADING,
+        value: false
+      })
     }
-
-    dispatch({
-      type: IS_LOADING,
-      value: false
-    })
   }
 }

@@ -79,7 +79,7 @@ export default function ConstructorFooter () {
        <Button
          type="primary"
          size="large"
-         disabled={isLoading}
+         disabled={isLoading || !bun}
          onClick={getOrderNumber}
        >
          Оформить заказ

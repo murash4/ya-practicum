@@ -1,4 +1,4 @@
-import { IS_LOADING, SET_INGREDIENTS } from '../../actions/ingredients/constants'
+import { SET_LOADING, SET_INGREDIENTS } from '../../actions/ingredients/constants'
 
 const initialState = {
   data: [],
@@ -13,16 +13,14 @@ export const ingredientsReducer = (state = initialState, action) => {
         data: action.data
       }
     }
-    case IS_LOADING: {
+    case SET_LOADING: {
       return {
         ...state,
         isLoading: action.value
       }
     }
     default: {
-      return {
-        ...state
-      }
+      return state
     }
   }
 }
