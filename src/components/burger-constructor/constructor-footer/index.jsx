@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchOrder } from  '../../../services/actions/orderDetails'
+import { CLEAR_CONSTRUCTOR } from '../../../services/actions/burgerConstructor/constants'
 import {
   Button,
   CurrencyIcon
@@ -42,6 +43,9 @@ export default function ConstructorFooter () {
    */
   const hidePopup = () => {
     setVisiblePopup(false)
+    dispatch({
+      type: CLEAR_CONSTRUCTOR
+    })
   }
 
   /**

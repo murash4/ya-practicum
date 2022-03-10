@@ -1,4 +1,4 @@
-import { ADD_BUN, ADD_NOT_BUN, REMOVE_BUN, REMOVE_NOT_BUN, SET_INGREDIENT } from '../../actions/burgerConstructor/constants'
+import { ADD_BUN, ADD_NOT_BUN, REMOVE_BUN, REMOVE_NOT_BUN, SET_INGREDIENT, CLEAR_CONSTRUCTOR } from '../../actions/burgerConstructor/constants'
 
 const initialState = {
   items: [],
@@ -25,7 +25,11 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       }
     }
     case ADD_NOT_BUN: {
-      const obj = { ...state }
+      const obj = {
+        ...state,
+        items: [...state.items],
+        count: {...state.count}
+      }
 
       obj.items.push({
         ...action.data,
@@ -42,7 +46,8 @@ export const burgerConstructorReducer = (state = initialState, action) => {
     case REMOVE_BUN: {
       const obj = {
         ...state,
-        bun: null
+        bun: null,
+        count: {...state.count}
       }
 
       if (state.bun && state.bun._id) {
@@ -55,7 +60,10 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       return obj
     }
     case REMOVE_NOT_BUN: {
-      const obj = { ...state }
+      const obj = {
+        ...state,
+        count: {...state.count}
+      }
 
       obj.items = obj.items.filter(item => item.id !== action.id)
       obj.items = obj.items.map((item, index) => {
@@ -69,6 +77,9 @@ export const burgerConstructorReducer = (state = initialState, action) => {
       }
 
       return obj
+    }
+    case CLEAR_CONSTRUCTOR: {
+      return initialState
     }
     default: {
       return state
