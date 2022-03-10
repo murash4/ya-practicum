@@ -2,7 +2,8 @@ import { ADD_BUN, ADD_NOT_BUN, REMOVE_BUN, REMOVE_NOT_BUN, SET_INGREDIENT } from
 
 const initialState = {
   items: [],
-  bun: null
+  bun: null,
+  count: {}
 }
 
 export const burgerConstructorReducer = (state = initialState, action) => {
@@ -16,7 +17,11 @@ export const burgerConstructorReducer = (state = initialState, action) => {
     case ADD_BUN: {
       return {
         ...state,
-        bun: action.data
+        bun: action.data,
+        count: {
+          ...state.count,
+          [action.data._id]: 1
+        }
       }
     }
     case ADD_NOT_BUN: {
@@ -27,13 +32,27 @@ export const burgerConstructorReducer = (state = initialState, action) => {
         id: obj.items.length
       })
 
+      obj.count = {
+        ...state.count,
+        [action.data._id]: state.count[action.data._id] ? ++state.count[action.data._id] : 1
+      }
+
       return obj
     }
     case REMOVE_BUN: {
-      return {
+      const obj = {
         ...state,
         bun: null
       }
+
+      if (state.bun && state.bun._id) {
+        obj.count = {
+          ...state.count,
+          [state.bun._id]: 0
+        }
+      }
+
+      return obj
     }
     case REMOVE_NOT_BUN: {
       const obj = { ...state }
@@ -44,6 +63,10 @@ export const burgerConstructorReducer = (state = initialState, action) => {
 
         return item
       })
+      obj.count = {
+        ...state.count,
+        [action._id]: --state.count[action._id]
+      }
 
       return obj
     }

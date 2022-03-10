@@ -1,9 +1,11 @@
+import { useSelector } from 'react-redux'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ingredientType } from '../../../../utils/types'
 import { useDrag } from 'react-dnd'
 import style from './style.module.css'
 
 export default function IngredientItem ({ item, showDetails }) {
+  const { count } = useSelector(state => state.burgerConstructor)
   const [, dragRef] = useDrag({
     type: 'ingredient',
     item
@@ -15,7 +17,10 @@ export default function IngredientItem ({ item, showDetails }) {
       className={`${style.item} mb-8`}
       onClick={() => {showDetails(item)}}
     >
-      <Counter count={1} size="default" />
+      {
+        !!count[item._id] &&
+        <Counter count={count[item._id]} size="default" />
+      }
 
       <img
         className={`ml-4 mr-4 mb-1`}

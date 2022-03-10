@@ -9,7 +9,8 @@ export function addIngredient (ingredient) {
       })
     } else {
       dispatch({
-        type: REMOVE_BUN
+        type: REMOVE_BUN,
+        _id: ingredient._id
       })
       dispatch({
         type: ADD_BUN,
@@ -23,11 +24,13 @@ export function removeIngredient (ingredient) {
   return dispatch => {
     if (ingredient.type === 'bun') {
       dispatch({
-        type: REMOVE_BUN
+        type: REMOVE_BUN,
+        _id: ingredient._id
       })
     } else {
       dispatch({
         type: REMOVE_NOT_BUN,
+        _id: ingredient._id,
         id: ingredient.id
       })
     }
