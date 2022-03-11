@@ -1,57 +1,39 @@
 import React from 'react'
-import { apiUrl } from '../../utils/api'
+import { useSelector, useDispatch } from 'react-redux'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import AppHeader from '../app-header'
 import BurgerIngredients from '../burger-ingredients'
 import BurgerConstructor from '../burger-constructor'
+import { fetchIngredients } from '../../services/actions/ingredients'
 import styles from './style.module.css'
 
-import { IngredientsContext } from '../../services/contexts'
-
 function App () {
-  const [ingredients, setTngredients] = React.useState([])
-
-  /**
-   * Получаение и запись списка ингредиентов в state
-   */
-  const getIngredients = () => {
-    fetch(`${apiUrl}ingredients`)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error("статус не 'ok'")
-        }
-
-        return res.json()
-      })
-      .then(res => {
-        setTngredients([...res.data])
-      })
-      .catch(e => {
-        console.log('Ошибка запроса к api: ', e)
-      })
-  }
+  const { ingredients } = useSelector(state => state)
+  const dispatch = useDispatch()
 
   React.useEffect(() => {
-    getIngredients()
-  }, [])
+    dispatch(fetchIngredients())
+  }, [dispatch])
 
   return (
     <>
       <AppHeader />
 
-      {
-        ingredients.length &&
+      <DndProvider backend={HTML5Backend}>
+        {
+          ingredients.data.length &&
           <main className={`${styles.main_container} pt-10`}>
-            <p className={`${styles.main_container_title} text text_type_main-large mb-5`}>
-              Соберите бургер
-            </p>
+              <p className={`${styles.main_container_title} text text_type_main-large mb-5`}>
+                Соберите бургер
+              </p>
 
-          <IngredientsContext.Provider value={ingredients}>
-            <BurgerIngredients />
+              <BurgerIngredients />
 
-            <BurgerConstructor />
-          </IngredientsContext.Provider>
-        </main>
-      }
+              <BurgerConstructor />
+          </main>
+        }
+      </DndProvider>
     </>
   )
 }

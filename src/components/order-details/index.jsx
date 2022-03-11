@@ -1,12 +1,14 @@
 import style from './style.module.css'
 import checkboxImg from '../../images/done.png'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
-export default function OrderDetails (props) {
+export default function OrderDetails () {
+  const { number } = useSelector(state => state.orderDetails.data.order)
+
   return (
     <div className={`${style.order_details} pt-30 pb-30`}>
       <p className="text text_type_digits-large mb-8">
-        {props.orderNumber}
+        {number}
       </p>
       <p className="text text_type_main-medium mb-15">
         идентификатор заказа
@@ -24,8 +26,4 @@ export default function OrderDetails (props) {
       </p>
     </div>
   )
-}
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number.isRequired
 }

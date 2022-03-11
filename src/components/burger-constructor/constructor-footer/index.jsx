@@ -1,31 +1,30 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchOrder } from  '../../../services/actions/orderDetails'
+import { CLEAR_CONSTRUCTOR } from '../../../services/actions/burgerConstructor/constants'
 import {
   Button,
   CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types'
-import { apiUrl } from '../../../utils/api'
-import { ingredientType } from '../../../utils/types'
 import Modal from '../../hocs/modal'
 import OrderDetails from '../../order-details'
 import style from './style.module.css'
 
-export default function ConstructorFooter (props) {
+export default function ConstructorFooter () {
+  const { isLoading, error } = useSelector(state => state.orderDetails)
+  const { items, bun } = useSelector(state => state.burgerConstructor)
+  const order = useSelector(state => state.orderDetails.data)
+  const dispatch = useDispatch()
   const [isVisiblePopup, setVisiblePopup] = React.useState(false)
-  const [order, setOrder] = React.useState({})
-  const [isLoading, setIsLoading] = React.useState(false)
 
   /**
    * Возвращает сумму всех ингредиентов
-   * @param {array} arr
    * @return {number}
    */
-  function getAllSum (arr) {
-    return arr.reduce((acc, item) => {
-      if (item.type === 'bun') {
-        return acc + item.price * 2
-      }
+  function getAllSum () {
+    const arr = bun ? [...items, bun, bun] : items
 
+    return arr.reduce((acc, item) => {
       return acc + item.price
     }, 0)
   }
@@ -33,15 +32,20 @@ export default function ConstructorFooter (props) {
   /**
    * Показ модалки с информацией о заказе
    */
-  const showPopup = () => {
-    setVisiblePopup(true)
-  }
+  const showPopup = useCallback(() => {
+      order && !error && setVisiblePopup(true)
+    },
+    [order, error, setVisiblePopup],
+  )
 
   /**
    * Скрытие модалки с информацией о заказе
    */
   const hidePopup = () => {
     setVisiblePopup(false)
+    dispatch({
+      type: CLEAR_CONSTRUCTOR
+    })
   }
 
   /**
@@ -49,7 +53,7 @@ export default function ConstructorFooter (props) {
    * @return {array}
    */
   const getAllIds = () => {
-    const array = [...props.data, props.data.find(item => item.type === 'bun')]
+    const array = [...items, bun]
 
     return array.map(item => item._id)
   }
@@ -58,51 +62,28 @@ export default function ConstructorFooter (props) {
    * Получает номер заказа с бэкенда
    */
   const getOrderNumber = () => {
-    if (isLoading) {
-      return
-    }
-
     const data = JSON.stringify({ ingredients: getAllIds() })
 
-    setIsLoading(true)
-    fetch(`${apiUrl}orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: data
-    })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error("статус не 'ok'")
-        }
-
-        return res.json()
-      })
-      .then(res => {
-        setOrder(res)
-        showPopup()
-      })
-      .catch(e => {
-        console.log('Ошибка запроса к api: ', e)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
+    dispatch(fetchOrder(data))
   }
+
+  React.useEffect(() => {
+    showPopup()
+  }, [order, showPopup])
 
   return (
    <>
      <div className={`${style.footer} pl-4 pr-4`}>
        <div className={`${style.price_wrap} mr-10`}>
          <p className={`${style.all_sum} text text_type_digits-medium`}>
-           {getAllSum(props.data)}
+           {getAllSum()}
          </p>
          <CurrencyIcon type="primary" />
        </div>
        <Button
          type="primary"
          size="large"
+         disabled={isLoading || !bun}
          onClick={getOrderNumber}
        >
          Оформить заказ
@@ -112,13 +93,9 @@ export default function ConstructorFooter (props) {
      {
        isVisiblePopup &&
        <Modal close={hidePopup}>
-         <OrderDetails orderNumber={order.order.number} />
+         <OrderDetails />
        </Modal>
      }
    </>
   )
-}
-
-ConstructorFooter.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired
 }

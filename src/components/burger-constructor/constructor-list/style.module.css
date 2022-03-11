@@ -6,3 +6,11 @@
 .simplebar {
   height: calc(100vh - 527px);
 }
+
+.simplebarNotBun {
+  height: calc(100vh - 351px);
+}
+
+.draging {
+  box-shadow: 0 0 0 1px lightgreen;
+}
