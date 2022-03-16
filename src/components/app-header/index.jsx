@@ -5,6 +5,7 @@ import {
   Logo
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import Btn from '../btn'
+import { NavLink } from 'react-router-dom';
 import styles from './style.module.css'
 
 export default function AppHeader () {
@@ -24,9 +25,9 @@ export default function AppHeader () {
           />
         </div>
 
-        <div className={`${styles.logo_wr} ml-2 mr-2`}>
+        <NavLink to="/" className={`${styles.logo_wr} ml-2 mr-2`}>
           <Logo />
-        </div>
+        </NavLink>
 
         <div>
           <Btn

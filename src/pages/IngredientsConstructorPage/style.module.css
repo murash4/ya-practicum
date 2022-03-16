@@ -3,8 +3,8 @@
   flex-wrap: wrap;
   justify-content: space-between;
   width: 1240px;
-  max-height: calc(100vh - 91px);
-  margin: 91px auto 0;
+  max-height: 100%;
+  margin: 0 auto;
 }
 
 .main_container_title {
