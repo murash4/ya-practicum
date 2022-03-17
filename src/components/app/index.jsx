@@ -1,6 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { IngredientsConstructorPage, LoginPage, RegisterPage, ForgotPasswordPage } from '../../pages';
+import {
+  IngredientsConstructorPage,
+  LoginPage,
+  RegisterPage,
+  ForgotPasswordPage,
+  ResetPasswordPage
+} from '../../pages';
 import AppHeader from '../app-header'
 
 function App () {
@@ -21,6 +27,9 @@ function App () {
           </Route>
           <Route path="/forgot-password">
             <ForgotPasswordPage />
+          </Route>
+          <Route path="/reset-password">
+            <ResetPasswordPage />
           </Route>
         </Switch>
       </Router>
