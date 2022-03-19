@@ -1,0 +1,42 @@
+.profile {
+  display: flex;
+  justify-content: flex-start;
+  width: 1240px;
+  padding-top: 120px;
+  margin: 0 auto;
+}
+
+.profile__menu-wr {
+  width: 320px;
+}
+
+.profile__menu {
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+.profile__menu-li {
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.profile__menu-li a,
+.profile__menu-link {
+  color: #8585AD;
+  cursor: pointer;
+}
+
+.profile__menu-link:hover {
+  text-decoration: underline;
+}
+
+.profile__menu-li a.active {
+  color: #F2F2F3;
+  pointer-events: none;
+}
+
+.profile__form {
+  width: 480px;
+}

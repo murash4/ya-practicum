@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import {NavLink, Redirect, useLocation } from 'react-router-dom'
+import { NavLink, Redirect, useLocation } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser, signIn } from '../../services/actions/user'
@@ -88,6 +88,7 @@ const LoginPage = () => {
         <Button
           type="primary"
           size="large"
+          disabled={!emailValue || !passwordValue}
         >
           Войти
         </Button>

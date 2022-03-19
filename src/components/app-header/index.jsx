@@ -29,13 +29,13 @@ export default function AppHeader () {
           <Logo />
         </NavLink>
 
-        <div>
+        <NavLink to="/profile">
           <Btn
             icon={<ProfileIcon type="secondary" />}
             text="Личный кабинет"
             color="secondary"
           />
-        </div>
+        </NavLink>
       </nav>
     </header>
   )

@@ -6,7 +6,8 @@ import {
   LoginPage,
   RegisterPage,
   ForgotPasswordPage,
-  ResetPasswordPage
+  ResetPasswordPage,
+  ProfilePage
 } from '../../pages';
 import AppHeader from '../app-header'
 
@@ -32,6 +33,9 @@ function App () {
           <Route path="/reset-password">
             <ResetPasswordPage />
           </Route>
+          <ProtectedRoute path="/profile">
+            <ProfilePage />
+          </ProtectedRoute>
         </Switch>
       </Router>
     </div>

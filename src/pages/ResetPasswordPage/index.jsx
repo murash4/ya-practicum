@@ -81,6 +81,7 @@ const ResetPasswordPage = () => {
         <Button
           type="primary"
           size="large"
+          disabled={!passwordValue || !tokenValue}
         >
           Сохранить
         </Button>

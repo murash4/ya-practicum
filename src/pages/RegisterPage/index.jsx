@@ -102,6 +102,7 @@ const RegisterPage = () => {
         <Button
           type="primary"
           size="large"
+          disabled={!nameValue || !emailValue || !passwordValue}
         >
           Зарегистрироваться
         </Button>

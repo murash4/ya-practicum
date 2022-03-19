@@ -2,15 +2,16 @@ import {
   SET_USER_LOADING,
   SET_USER_DATA,
   SET_USER_DATA_ERROR,
-  SET_USER_MESSAGE
+  SET_USER_MESSAGE,
+  CLEAR_USER_DATA
 } from './constants'
-import {apiUrl, authUrl} from '../../../utils/api'
+import { apiUrl, authUrl } from '../../../utils/api'
 import { cookie } from '../../../utils/cookie'
 
 /**
  * Обновление токена
  */
-export const updateToken = async () => {
+export const updateToken = () => {
   return async dispatch => {
     dispatch({
       type: SET_USER_LOADING,
@@ -68,17 +69,18 @@ export function getUser () {
       })
         .then(res => res.json())
 
-      // Если токен истек и есть refreshToken
+      // Если есть сообщение с ошибкой о истекшем токене
       if (parsedData.message === 'jwt malformed' && cookie.get('refreshToken')) {
-        await updateToken()
+        dispatch(updateToken())
         return
       }
 
-      // Если любая другая ошибка
+      // Если сообщение с ошибкой, но токен не нужно обновлять
       if (parsedData.message) {
         throw new Error(parsedData.message)
       }
 
+      // Если все хорошо, то сохраняем данные пользователя
       dispatch({
         type: SET_USER_DATA,
         data: parsedData.user
@@ -257,6 +259,51 @@ export function changePassword (data) {
         dispatch({
           type: SET_USER_MESSAGE,
           data: parsedData.message
+        })
+      } else {
+        throw new Error(parsedData.message)
+      }
+    } catch (e) {
+      console.log('Ошибка запроса к api: ', e)
+      dispatch({
+        type: SET_USER_DATA_ERROR
+      })
+    } finally {
+      dispatch({
+        type: SET_USER_LOADING,
+        value: false
+      })
+    }
+  }
+}
+
+/**
+ * Выход из аккаунта
+ */
+export function logOut () {
+  return async dispatch => {
+    dispatch({
+      type: SET_USER_LOADING,
+      value: true
+    })
+
+    // Делаем запрос на выход из аккаунта
+    try {
+      const data = { token: cookie.get('refreshToken') }
+      const parsedData = await fetch(`${authUrl}/logout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+
+      if (parsedData.success && parsedData.message === 'Successful logout') {
+        cookie.remove('token')
+        cookie.remove('refreshToken')
+        dispatch({
+          type: CLEAR_USER_DATA
         })
       } else {
         throw new Error(parsedData.message)

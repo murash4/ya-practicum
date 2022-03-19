@@ -68,6 +68,7 @@ const ForgotPasswordPage = () => {
         <Button
           type="primary"
           size="large"
+          disabled={!emailValue}
         >
           Восстановить
         </Button>
