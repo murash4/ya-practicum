@@ -1,5 +1,6 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ProtectedRoute } from '../protected-route'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import {
   IngredientsConstructorPage,
   LoginPage,
@@ -16,9 +17,9 @@ function App () {
       <Router>
         <AppHeader />
         <Switch>
-          <Route path="/" exact={true}>
+          <ProtectedRoute path="/" exact={true}>
             <IngredientsConstructorPage />
-          </Route>
+          </ProtectedRoute>
           <Route path="/login">
             <LoginPage />
           </Route>

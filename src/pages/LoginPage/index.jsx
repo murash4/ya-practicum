@@ -1,13 +1,19 @@
-import React, { useRef } from 'react'
-import { NavLink } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef } from 'react'
+import {NavLink, Redirect, useLocation } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser, signIn } from '../../services/actions/user'
+import Preloader from '../../components/preloader'
 
 const LoginPage = () => {
+  const user = useSelector(state => state.user)
   const [emailValue, setEmailValue] = React.useState('')
   const [passwordValue, setPasswordValue] = React.useState('')
   const [typePassword, setTypePassword] = React.useState('password')
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
+  const dispatch = useDispatch()
+  const location = useLocation()
 
   /**
    * Переключает видимость введенного пароля
@@ -18,8 +24,39 @@ const LoginPage = () => {
     setTypePassword(newType)
   }
 
+  /**
+   * Отправляем данные для авторизации
+   */
+  const submitForm = useCallback((e) => {
+    e.preventDefault()
+    dispatch(signIn({
+      email: emailValue,
+      password: passwordValue
+    }))
+  }, [dispatch, emailValue, passwordValue])
+
+  // если есть токен, но зашли по прямой ссылке, то запрашиваем данные по пользователю
+  useEffect(() => {
+    dispatch(getUser())
+  }, [dispatch])
+
+  // Пока идет загрузка, то показываем лоадер
+  if (user.isLoading) {
+    return <Preloader fullPage={true} />
+  }
+
+  // если пользователь существует, то уходит со страницы
+  if (user.data) {
+    return (
+      <Redirect to={ location.state?.from || '/' } />
+    )
+  }
+
   return <div className="form--wr-center">
-    <form className="form">
+    <form
+      className="form"
+      onSubmit={submitForm}
+    >
       <p className="text text_type_main-medium mb-6">
         Вход
       </p>

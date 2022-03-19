@@ -1,0 +1,74 @@
+:root {
+  --purple1: #131316;
+  --green1: #74DCD2;
+  --blue1: #5A8BC4;
+  --blue2: #9D4EDD;
+}
+
+.preloader {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.fullPage {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  background-color: var(--purple1);
+}
+
+.inner {
+  position: relative;
+  pointer-events: none;
+}
+
+.element {
+  display: block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  border-top-color: var(--green1);
+  animation: spin 2s linear infinite;
+}
+
+.element:before {
+   content: "";
+   position: absolute;
+   top: 5px;
+   left: 5px;
+   right: 5px;
+   bottom: 5px;
+   border: 3px solid transparent;
+   border-radius: 50%;
+   border-top-color: var(--blue1);
+   animation: spin 3s linear infinite;
+}
+
+.element:after {
+   content: "";
+   position: absolute;
+   top: 15px;
+   left: 15px;
+   right: 15px;
+   bottom: 15px;
+   border: 3px solid transparent;
+   border-radius: 50%;
+   border-top-color: var(--blue2);
+   animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0%   {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

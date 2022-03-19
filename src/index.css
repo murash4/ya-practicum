@@ -60,3 +60,12 @@ code {
 .input {
   width: 100%;
 }
+
+a {
+  color: #4C4CFF;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

@@ -1,8 +1,12 @@
-import React, { useRef } from 'react'
-import { NavLink } from 'react-router-dom';
+import React, {useRef, useCallback, useEffect} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { NavLink, Redirect, useLocation } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
+import { getUser, signUp } from '../../services/actions/user'
+import Preloader from '../../components/preloader'
 
 const RegisterPage = () => {
+  const user = useSelector(state => state.user)
   const [nameValue, setNameValue] = React.useState('')
   const [emailValue, setEmailValue] = React.useState('')
   const [passwordValue, setPasswordValue] = React.useState('')
@@ -10,6 +14,8 @@ const RegisterPage = () => {
   const nameRef = useRef(null)
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
+  const dispatch = useDispatch()
+  const location = useLocation()
 
   /**
    * Переключает видимость введенного пароля
@@ -20,8 +26,40 @@ const RegisterPage = () => {
     setTypePassword(newType)
   }
 
+  /**
+   * Отправляем данные для регистрации
+   */
+  const submitForm = useCallback((e) => {
+    e.preventDefault()
+    dispatch(signUp({
+      email: emailValue,
+      password: passwordValue,
+      name: nameValue
+    }))
+  }, [dispatch, emailValue, passwordValue, nameValue])
+
+  // если есть токен, но зашли по прямой ссылке, то запрашиваем данные по пользователю
+  useEffect(() => {
+    dispatch(getUser())
+  }, [dispatch])
+
+  // Пока идет загрузка, то показываем лоадер
+  if (user.isLoading) {
+    return <Preloader fullPage={true} />
+  }
+
+  // если пользователь существует, то уходит со страницы
+  if (user.data) {
+    return (
+      <Redirect to={ location.state?.from || '/' } />
+    )
+  }
+
   return <div className="form--wr-center">
-    <form className="form">
+    <form
+      className="form"
+      onSubmit={submitForm}
+    >
       <p className="text text_type_main-medium mb-6">
         Регистрация
       </p>
