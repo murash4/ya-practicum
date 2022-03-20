@@ -100,6 +100,58 @@ export function getUser () {
 }
 
 /**
+ * Обновление информации о пользователе
+ * @returns {Promise}
+ */
+export function editUser () {
+  return async dispatch => {
+    dispatch({
+      type: SET_USER_LOADING,
+      value: true
+    })
+
+    try {
+      // Делаем запрос на получение данных о пользователе
+      const parsedData = await fetch(`${authUrl}/user`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${cookie.get('token')}`
+        }
+      })
+        .then(res => res.json())
+
+      // Если есть сообщение с ошибкой о истекшем токене
+      if (parsedData.message === 'jwt malformed' && cookie.get('refreshToken')) {
+        dispatch(updateToken())
+        return
+      }
+
+      // Если сообщение с ошибкой, но токен не нужно обновлять
+      if (parsedData.message) {
+        throw new Error(parsedData.message)
+      }
+
+      // Если все хорошо, то сохраняем данные пользователя
+      dispatch({
+        type: SET_USER_DATA,
+        data: parsedData.user
+      })
+    } catch (e) {
+      console.log('Ошибка запроса к api: ', e)
+      dispatch({
+        type: SET_USER_DATA_ERROR
+      })
+    } finally {
+      dispatch({
+        type: SET_USER_LOADING,
+        value: false
+      })
+    }
+  }
+}
+
+/**
  * Авторизация
  * @param {object} data
  */

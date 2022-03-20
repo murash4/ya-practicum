@@ -7,7 +7,8 @@ import {
   RegisterPage,
   ForgotPasswordPage,
   ResetPasswordPage,
-  ProfilePage
+  ProfilePage,
+  Page404
 } from '../../pages';
 import AppHeader from '../app-header'
 
@@ -36,6 +37,9 @@ function App () {
           <ProtectedRoute path="/profile">
             <ProfilePage />
           </ProtectedRoute>
+          <Route>
+            <Page404 />
+          </Route>
         </Switch>
       </Router>
     </div>

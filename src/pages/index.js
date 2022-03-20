@@ -4,6 +4,7 @@ import RegisterPage from './RegisterPage'
 import ForgotPasswordPage from './ForgotPasswordPage'
 import ResetPasswordPage from './ResetPasswordPage'
 import ProfilePage from './ProfilePage'
+import Page404 from './Page404'
 
 export {
   IngredientsConstructorPage,
@@ -11,5 +12,6 @@ export {
   RegisterPage,
   ForgotPasswordPage,
   ResetPasswordPage,
-  ProfilePage
+  ProfilePage,
+  Page404
 }
