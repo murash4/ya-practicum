@@ -78,7 +78,10 @@ export default function ProfileForm () {
   }, [resetUser])
 
   return (
-    <form className="profile__form">
+    <form
+      className="profile__form"
+      onSubmit={saveUser}
+    >
       <div className="mb-6">
         <Input
           type="text"
@@ -134,7 +137,6 @@ export default function ProfileForm () {
           type="primary"
           size="large"
           disabled={user.isLoading || !isFormChanged}
-          onClick={saveUser}
         >
           Сохранить
         </Button>
