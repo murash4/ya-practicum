@@ -19,7 +19,7 @@ export default function IngredientDetails () {
   }
 
   return (
-    <div className={`${style.ingredient_details} pb-15`}>
+    <div className={`${style.ingredient_details} ${!id ? 'pb-15' : ''}`}>
       <img
         src={selectedIngredient.image_large}
         alt={selectedIngredient.name}
