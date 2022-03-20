@@ -17,6 +17,7 @@ export default function IngredientList (props) {
    * @param {object} item
    */
   const showDetails = (item) => {
+    window.history.pushState(null, null, `/ingredients/${item._id}`)
     dispatch({
       type: SET_INGREDIENT_DETAILS,
       data: item
@@ -27,6 +28,7 @@ export default function IngredientList (props) {
    * Скрыть попап с деталями об ингредиенте
    */
   const resetSelectedItem = () => {
+    window.history.pushState(null, null, '/')
     dispatch({
       type: CLEAR_INGREDIENT_DETAILS
     })

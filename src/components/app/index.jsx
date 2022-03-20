@@ -8,6 +8,7 @@ import {
   ForgotPasswordPage,
   ResetPasswordPage,
   ProfilePage,
+  IngredientsPage,
   Page404
 } from '../../pages';
 import AppHeader from '../app-header'
@@ -21,6 +22,9 @@ function App () {
         <Switch>
           <Route path="/" exact={true}>
             <IngredientsConstructorPage />
+          </Route>
+          <Route path="/ingredients/:id" exact={true}>
+            <IngredientsPage />
           </Route>
           <Route path="/login">
             <LoginPage />

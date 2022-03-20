@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -11,9 +11,9 @@ function IngredientsConstructorPage () {
   const { ingredients } = useSelector(state => state)
   const dispatch = useDispatch()
 
-  useEffect(() => {
+  if (!ingredients.data.length && !ingredients.isLoading) {
     dispatch(fetchIngredients())
-  }, [dispatch])
+  }
 
   return (
     <DndProvider backend={HTML5Backend}>
