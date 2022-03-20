@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Input } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { NavLink } from 'react-router-dom'
-import { logOut } from '../../services/actions/user'
+import { editUser, logOut } from '../../services/actions/user'
 import './style.css'
 
 const ProfilePage = () => {
@@ -41,10 +41,46 @@ const ProfilePage = () => {
     dispatch(logOut())
   }
 
+  /**
+   * Сброс измененных данных пользователя
+   * @param {object|undefined} e
+   */
+  const resetUser = useCallback(
+    e => {
+      if (e) {
+        e.preventDefault()
+      }
+
+      setNameValue(user.data.name)
+      setEmailValue(user.data.email)
+      setNameDisabled(true)
+      setEmailDisabled(true)
+      setPasswordDisabled(true)
+    }, [user]
+  )
+
+  /**
+   * Сохранение данных пользователя
+   * @param {object} e
+   */
+  const saveUser = e => {
+    e.preventDefault()
+
+    dispatch(editUser({
+      email: emailValue,
+      name: nameValue
+    }))
+  }
+
+  /**
+   * Флаг, что форма была изменена
+   */
+  const isFormChanged = nameValue !== user.data.name ||
+    emailValue !== user.data.email
+
   useEffect(() => {
-    setNameValue(user.data.name)
-    setEmailValue(user.data.email)
-  }, [user])
+    resetUser()
+  }, [resetUser])
 
   return <div className="profile">
     <div className="profile__menu-wr mr-15">
@@ -114,6 +150,24 @@ const ProfilePage = () => {
           onIconClick={() => toggleEdit('password')}
           onChange={e => setPasswordValue(e.target.value)}
         />
+      </div>
+      <div className="profile__form-btns">
+        <Button
+          type="primary"
+          size="large"
+          disabled={!isFormChanged}
+          onClick={resetUser}
+        >
+          Отмена
+        </Button>
+        <Button
+          type="primary"
+          size="large"
+          disabled={user.isLoading || !isFormChanged}
+          onClick={saveUser}
+        >
+          Сохранить
+        </Button>
       </div>
     </form>
   </div>

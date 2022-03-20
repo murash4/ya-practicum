@@ -40,3 +40,9 @@
 .profile__form {
   width: 480px;
 }
+
+.profile__form-btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

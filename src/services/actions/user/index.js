@@ -103,7 +103,7 @@ export function getUser () {
  * Обновление информации о пользователе
  * @returns {Promise}
  */
-export function editUser () {
+export function editUser (data) {
   return async dispatch => {
     dispatch({
       type: SET_USER_LOADING,
@@ -117,7 +117,8 @@ export function editUser () {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${cookie.get('token')}`
-        }
+        },
+        body: JSON.stringify(data)
       })
         .then(res => res.json())
 
