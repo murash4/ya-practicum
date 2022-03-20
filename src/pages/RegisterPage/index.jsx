@@ -55,63 +55,65 @@ const RegisterPage = () => {
     )
   }
 
-  return <div className="form--wr-center">
-    <form
-      className="form"
-      onSubmit={submitForm}
-    >
-      <p className="text text_type_main-medium mb-6">
-        Регистрация
-      </p>
-      <div className="mb-6">
-        <Input
-          type="text"
-          placeholder="Имя"
-          ref={nameRef}
-          value={nameValue}
-          name="name"
-          size="default"
-          onChange={e => setNameValue(e.target.value)}
-        />
-      </div>
-      <div className="mb-6">
-        <Input
-          type="email"
-          placeholder="E-mail"
-          ref={emailRef}
-          value={emailValue}
-          name="email"
-          size="default"
-          onChange={e => setEmailValue(e.target.value)}
-        />
-      </div>
-      <div className="mb-6">
-        <Input
-          type={typePassword}
-          placeholder="Пароль"
-          ref={passwordRef}
-          value={passwordValue}
-          name="email"
-          size="default"
-          icon={typePassword === 'password' ? 'ShowIcon' : 'HideIcon'}
-          onIconClick={changeTypePassword}
-          onChange={e => setPasswordValue(e.target.value)}
-        />
-      </div>
-      <div className="mb-20">
-        <Button
-          type="primary"
-          size="large"
-          disabled={!nameValue || !emailValue || !passwordValue}
-        >
-          Зарегистрироваться
-        </Button>
-      </div>
-      <p className="text text_type_main-default text_color_inactive mb-4">
-        Уже зарегистрированы? <NavLink to="/login">Войти</NavLink>
-      </p>
-    </form>
-  </div>
+  return (
+    <div className="form--wr-center">
+      <form
+        className="form"
+        onSubmit={submitForm}
+      >
+        <p className="text text_type_main-medium mb-6">
+          Регистрация
+        </p>
+        <div className="mb-6">
+          <Input
+            type="text"
+            placeholder="Имя"
+            ref={nameRef}
+            value={nameValue}
+            name="name"
+            size="default"
+            onChange={e => setNameValue(e.target.value)}
+          />
+        </div>
+        <div className="mb-6">
+          <Input
+            type="email"
+            placeholder="E-mail"
+            ref={emailRef}
+            value={emailValue}
+            name="email"
+            size="default"
+            onChange={e => setEmailValue(e.target.value)}
+          />
+        </div>
+        <div className="mb-6">
+          <Input
+            type={typePassword}
+            placeholder="Пароль"
+            ref={passwordRef}
+            value={passwordValue}
+            name="email"
+            size="default"
+            icon={typePassword === 'password' ? 'ShowIcon' : 'HideIcon'}
+            onIconClick={changeTypePassword}
+            onChange={e => setPasswordValue(e.target.value)}
+          />
+        </div>
+        <div className="mb-20">
+          <Button
+            type="primary"
+            size="large"
+            disabled={!nameValue || !emailValue || !passwordValue}
+          >
+            Зарегистрироваться
+          </Button>
+        </div>
+        <p className="text text_type_main-default text_color_inactive mb-4">
+          Уже зарегистрированы? <NavLink to="/login">Войти</NavLink>
+        </p>
+      </form>
+    </div>
+  )
 }
 
 export default RegisterPage

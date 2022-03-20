@@ -45,52 +45,54 @@ const ResetPasswordPage = () => {
     setTypePassword(newType)
   }
 
-  return <div className="form--wr-center">
-    <form
-      className="form"
-      onSubmit={submitForm}
-    >
-      <p className="text text_type_main-medium mb-6">
-        Восстановление пароля
-      </p>
-      <div className="mb-6">
-        <Input
-          type={typePassword}
-          placeholder="Введите новый пароль"
-          ref={passwordRef}
-          value={passwordValue}
-          name="email"
-          size="default"
-          icon={typePassword === 'password' ? 'ShowIcon' : 'HideIcon'}
-          onIconClick={changeTypePassword}
-          onChange={e => setPasswordValue(e.target.value)}
-        />
-      </div>
-      <div className="mb-6">
-        <Input
-          type="text"
-          placeholder="Введите код из письма"
-          ref={tokenRef}
-          value={tokenValue}
-          name="token"
-          size="default"
-          onChange={e => setTokenValue(e.target.value)}
-        />
-      </div>
-      <div className="mb-20">
-        <Button
-          type="primary"
-          size="large"
-          disabled={!passwordValue || !tokenValue}
-        >
-          Сохранить
-        </Button>
-      </div>
-      <p className="text text_type_main-default text_color_inactive mb-4">
-        Вспомнили пароль? <NavLink to="/login">Войти</NavLink>
-      </p>
-    </form>
-  </div>
+  return (
+    <div className="form--wr-center">
+      <form
+        className="form"
+        onSubmit={submitForm}
+      >
+        <p className="text text_type_main-medium mb-6">
+          Восстановление пароля
+        </p>
+        <div className="mb-6">
+          <Input
+            type={typePassword}
+            placeholder="Введите новый пароль"
+            ref={passwordRef}
+            value={passwordValue}
+            name="email"
+            size="default"
+            icon={typePassword === 'password' ? 'ShowIcon' : 'HideIcon'}
+            onIconClick={changeTypePassword}
+            onChange={e => setPasswordValue(e.target.value)}
+          />
+        </div>
+        <div className="mb-6">
+          <Input
+            type="text"
+            placeholder="Введите код из письма"
+            ref={tokenRef}
+            value={tokenValue}
+            name="token"
+            size="default"
+            onChange={e => setTokenValue(e.target.value)}
+          />
+        </div>
+        <div className="mb-20">
+          <Button
+            type="primary"
+            size="large"
+            disabled={!passwordValue || !tokenValue}
+          >
+            Сохранить
+          </Button>
+        </div>
+        <p className="text text_type_main-default text_color_inactive mb-4">
+          Вспомнили пароль? <NavLink to="/login">Войти</NavLink>
+        </p>
+      </form>
+    </div>
+  )
 }
 
 export default ResetPasswordPage

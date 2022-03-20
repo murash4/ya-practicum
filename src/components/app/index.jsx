@@ -8,6 +8,7 @@ import {
   ForgotPasswordPage,
   ResetPasswordPage,
   ProfilePage,
+  ProfileOrdersPage,
   IngredientsPage,
   Page404
 } from '../../pages';
@@ -38,8 +39,11 @@ function App () {
           <Route path="/reset-password">
             <ResetPasswordPage />
           </Route>
-          <ProtectedRoute path="/profile">
+          <ProtectedRoute path="/profile" exact={true}>
             <ProfilePage />
+          </ProtectedRoute>
+          <ProtectedRoute path="/profile/orders" exact={true}>
+            <ProfileOrdersPage />
           </ProtectedRoute>
           <Route>
             <Page404 />

@@ -47,7 +47,6 @@ export default function AppHeader () {
         <NavLink
           to="/profile"
           className="header__button"
-          exact={true}
         >
           <Btn
             icon={<ProfileIcon type="secondary" />}
