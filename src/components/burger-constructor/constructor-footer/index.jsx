@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { fetchOrder } from  '../../../services/actions/orderDetails'
 import { CLEAR_CONSTRUCTOR } from '../../../services/actions/burgerConstructor/constants'
 import {
@@ -11,10 +12,12 @@ import OrderDetails from '../../order-details'
 import style from './style.module.css'
 
 export default function ConstructorFooter () {
+  const user = useSelector(state => state.user)
   const { isLoading, error } = useSelector(state => state.orderDetails)
   const { items, bun } = useSelector(state => state.burgerConstructor)
   const order = useSelector(state => state.orderDetails.data)
   const dispatch = useDispatch()
+  const history = useHistory()
   const [isVisiblePopup, setVisiblePopup] = React.useState(false)
 
   /**
@@ -67,6 +70,13 @@ export default function ConstructorFooter () {
     dispatch(fetchOrder(data))
   }
 
+  /**
+   * Обработчик клика на кнопку оформления заказа
+   */
+  const orderHandler = () => {
+    user.data ? getOrderNumber() : history.push({ pathname: '/login' })
+  }
+
   React.useEffect(() => {
     showPopup()
   }, [order, showPopup])
@@ -84,7 +94,7 @@ export default function ConstructorFooter () {
          type="primary"
          size="large"
          disabled={isLoading || !bun}
-         onClick={getOrderNumber}
+         onClick={orderHandler}
        >
          Оформить заказ
        </Button>

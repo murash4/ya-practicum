@@ -19,9 +19,9 @@ function App () {
       <Router>
         <AppHeader />
         <Switch>
-          <ProtectedRoute path="/" exact={true}>
+          <Route path="/" exact={true}>
             <IngredientsConstructorPage />
-          </ProtectedRoute>
+          </Route>
           <Route path="/login">
             <LoginPage />
           </Route>
