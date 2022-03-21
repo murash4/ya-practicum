@@ -1,36 +1,31 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useHistory, useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { CLEAR_INGREDIENT_DETAILS, SET_INGREDIENT_DETAILS } from '../../../services/actions/ingredientDetails'
+import { SET_INGREDIENT_DETAILS } from '../../../services/actions/ingredientDetails'
 import { ingredientsNameType, ingredientType } from '../../../utils/types'
 import IngredientItem from './ingredient-item'
-import Modal from '../../hocs/modal'
-import IngredientDetails from '../../ingredient-details'
 import style from './style.module.css'
 
 export default function IngredientList (props) {
-  const { ingredientDetails } = useSelector(state => state)
   const dispatch = useDispatch()
+  const history = useHistory()
+  const location = useLocation()
 
   /**
    * Показать попап с деталями об ингредиенте
    * @param {object} item
    */
   const showDetails = (item) => {
-    window.history.pushState(null, null, `/ingredients/${item._id}`)
+    history.push({
+      pathname: `/ingredients/${item._id}`,
+      state: {
+        backgroundLocation: location
+      }
+    })
     dispatch({
       type: SET_INGREDIENT_DETAILS,
       data: item
-    })
-  }
-
-  /**
-   * Скрыть попап с деталями об ингредиенте
-   */
-  const resetSelectedItem = () => {
-    window.history.pushState(null, null, '/')
-    dispatch({
-      type: CLEAR_INGREDIENT_DETAILS
     })
   }
 
@@ -52,16 +47,6 @@ export default function IngredientList (props) {
           />
         ))}
       </div>
-
-      {
-        ingredientDetails &&
-        <Modal
-          title="Детали ингредиента"
-          close={resetSelectedItem}
-        >
-          <IngredientDetails />
-        </Modal>
-      }
     </>
   )
 }

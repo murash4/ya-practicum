@@ -7,11 +7,12 @@ import {
 } from './constants'
 import { apiUrl, authUrl } from '../../../utils/api'
 import { cookie } from '../../../utils/cookie'
+import { checkResponse } from '../../../helpers/api'
 
 /**
  * Обновление токена
  */
-export const updateToken = () => {
+export const updateToken = (callback) => {
   return async dispatch => {
     dispatch({
       type: SET_USER_LOADING,
@@ -29,8 +30,7 @@ export const updateToken = () => {
         },
         body: JSON.stringify(data)
       })
-        .then(res => res.json())
-
+        .then(checkResponse)
       const cookieTime = Date.now() + 20 * 60 * 1000
       const accessToken = parsedData.accessToken.split('Bearer ')[1]
 
@@ -43,6 +43,10 @@ export const updateToken = () => {
         type: SET_USER_LOADING,
         value: false
       })
+
+      if (callback) {
+        dispatch(callback())
+      }
     }
   }
 }
@@ -53,6 +57,7 @@ export const updateToken = () => {
  */
 export function getUser () {
   return async dispatch => {
+    let isJwtMalformed = false
     dispatch({
       type: SET_USER_LOADING,
       value: true
@@ -67,13 +72,26 @@ export function getUser () {
           'Authorization': `Bearer ${cookie.get('token')}`
         }
       })
-        .then(res => res.json())
+        .then(async result => {
+          let err = null
+          if (!result.ok) {
+            err = 'статус не \'ok\''
+          }
+          const res = await result.json()
 
-      // Если есть сообщение с ошибкой о истекшем токене
-      if (parsedData.message === 'jwt malformed' && cookie.get('refreshToken')) {
-        dispatch(updateToken())
-        return
-      }
+          // Если есть сообщение с ошибкой о истекшем токене
+          if (res.message === 'jwt malformed' && cookie.get('refreshToken')) {
+            isJwtMalformed = true
+          }
+
+          // Если ошибка не связана с истекшим токеном, то выкидываем ее
+          if (err) {
+            throw new Error(err)
+          }
+
+          // Иначе возвращаем результат
+          return res
+        })
 
       // Если сообщение с ошибкой, но токен не нужно обновлять
       if (parsedData.message) {
@@ -95,6 +113,10 @@ export function getUser () {
         type: SET_USER_LOADING,
         value: false
       })
+
+      if (isJwtMalformed) {
+        dispatch(updateToken(getUser))
+      }
     }
   }
 }
@@ -120,7 +142,7 @@ export function editUser (data) {
         },
         body: JSON.stringify(data)
       })
-        .then(res => res.json())
+        .then(checkResponse)
 
       // Если есть сообщение с ошибкой о истекшем токене
       if (parsedData.message === 'jwt malformed' && cookie.get('refreshToken')) {
@@ -172,7 +194,7 @@ export function signIn (data) {
         },
         body: JSON.stringify(data)
       })
-        .then(res => res.json())
+        .then(checkResponse)
       const accessToken = parsedData.accessToken.split('Bearer ')[1]
       const cookieTime = Date.now() + 20 * 60 * 1000
 
@@ -217,7 +239,7 @@ export function signUp (data) {
         },
         body: JSON.stringify(data)
       })
-        .then(res => res.json())
+        .then(checkResponse)
       const accessToken = parsedData.accessToken.split('Bearer ')[1];
       const cookieTime = Date.now() + 20 * 60 * 1000
 
@@ -262,7 +284,7 @@ export function resetPassword (data) {
         },
         body: JSON.stringify(data)
       })
-        .then(res => res.json())
+        .then(checkResponse)
 
       if (parsedData.success && parsedData.message === 'Reset email sent') {
         dispatch({
@@ -306,7 +328,7 @@ export function changePassword (data) {
         },
         body: JSON.stringify(data)
       })
-        .then(res => res.json())
+        .then(checkResponse)
 
       if (parsedData.success && parsedData.message === 'Password successfully reset') {
         dispatch({
@@ -350,7 +372,7 @@ export function logOut () {
         },
         body: JSON.stringify(data)
       })
-        .then(res => res.json())
+        .then(checkResponse)
 
       if (parsedData.success && parsedData.message === 'Successful logout') {
         cookie.remove('token')

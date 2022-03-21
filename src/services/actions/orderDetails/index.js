@@ -18,14 +18,14 @@ export function fetchOrder (ingredients) {
     })
 
     try {
-      const result = await fetch(`${apiUrl}orders`, {
+      const parsedData = await fetch(`${apiUrl}orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: ingredients
       })
-      const parsedData = await checkResponse(result)
+        .then(checkResponse)
 
       dispatch({
         type: SET_ORDER_DETAILS,

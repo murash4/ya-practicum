@@ -63,7 +63,8 @@ export default function ProfileForm () {
 
     dispatch(editUser({
       email: emailValue,
-      name: nameValue
+      name: nameValue,
+      password: passwordValue
     }))
   }
 
