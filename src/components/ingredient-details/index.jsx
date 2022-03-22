@@ -1,18 +1,32 @@
-import { useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { fetchIngredients } from '../../services/actions/ingredients'
 import style from './style.module.css'
+import Preloader from '../preloader'
 
 export default function IngredientDetails () {
-  const { ingredientDetails } = useSelector(state => state)
+  const { id } = useParams()
+  const { ingredients, ingredientDetails } = useSelector(state => state)
+  const dispatch = useDispatch()
+  const selectedIngredient = (ingredients.data.length && id) ? ingredients.data.find(item => item._id === id) : ingredientDetails
+
+  if (id && !ingredients.data.length && !ingredients.isLoading) {
+    dispatch(fetchIngredients())
+  }
+
+  if (!selectedIngredient) {
+    return <Preloader />
+  }
 
   return (
-    <div className={`${style.ingredient_details} pb-15`}>
+    <div className={`${style.ingredient_details} ${!id ? 'pb-15' : ''}`}>
       <img
-        src={ingredientDetails.image_large}
-        alt={ingredientDetails.name}
+        src={selectedIngredient.image_large}
+        alt={selectedIngredient.name}
         className="mb-4"
       />
       <p className="text text_type_main-medium mb-8">
-        {ingredientDetails.name}
+        {selectedIngredient.name}
       </p>
       <ul className={`${style.composition}`}>
         <li className="mr-5">
@@ -20,7 +34,7 @@ export default function IngredientDetails () {
             Калории,ккал
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {ingredientDetails.calories}
+            {selectedIngredient.calories}
           </p>
         </li>
         <li className="mr-5">
@@ -28,7 +42,7 @@ export default function IngredientDetails () {
             Белки, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {ingredientDetails.proteins}
+            {selectedIngredient.proteins}
           </p>
         </li>
         <li className="mr-5">
@@ -36,7 +50,7 @@ export default function IngredientDetails () {
             Жиры, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {ingredientDetails.fat}
+            {selectedIngredient.fat}
           </p>
         </li>
         <li>
@@ -44,7 +58,7 @@ export default function IngredientDetails () {
             Углеводы, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {ingredientDetails.carbohydrates}
+            {selectedIngredient.carbohydrates}
           </p>
         </li>
       </ul>

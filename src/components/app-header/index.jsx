@@ -5,36 +5,55 @@ import {
   Logo
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import Btn from '../btn'
-import styles from './style.module.css'
+import { NavLink } from 'react-router-dom';
+import './style.css'
 
 export default function AppHeader () {
   return (
-    <header className={`${styles.header} pt-4 pb-4`}>
-      <nav className={styles.header_inner}>
+    <header className="header pt-4 pb-4">
+      <nav className="header__inner">
         <div>
-          <Btn
-            icon={<BurgerIcon type="primary" />}
-            text="Конструктор"
-            color="primary"
-          />
-          <Btn
-            icon={<ListIcon type="secondary" />}
-            text="Лента заказов"
-            color="secondary"
-          />
+          <NavLink
+            to="/"
+            className="header__button"
+            exact={true}
+          >
+            <Btn
+              icon={<BurgerIcon type="secondary" />}
+              text="Конструктор"
+              color="secondary"
+            />
+          </NavLink>
+          <NavLink
+            to="/profils/orders"
+            className="header__button"
+            exact={true}
+          >
+            <Btn
+              icon={<ListIcon type="secondary" />}
+              text="Лента заказов"
+              color="secondary"
+            />
+          </NavLink>
         </div>
 
-        <div className={`${styles.logo_wr} ml-2 mr-2`}>
+        <NavLink
+          to="/"
+          className="header__logo-wr ml-2 mr-2"
+        >
           <Logo />
-        </div>
+        </NavLink>
 
-        <div>
+        <NavLink
+          to="/profile"
+          className="header__button"
+        >
           <Btn
             icon={<ProfileIcon type="secondary" />}
             text="Личный кабинет"
             color="secondary"
           />
-        </div>
+        </NavLink>
       </nav>
     </header>
   )

@@ -1,40 +1,107 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { ProtectedRoute } from '../protected-route'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useLocation,
+  useHistory,
+} from 'react-router-dom'
+import {
+  IngredientsConstructorPage,
+  LoginPage,
+  RegisterPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  ProfilePage,
+  ProfileOrdersPage,
+  IngredientsPage,
+  Page404
+} from '../../pages'
 import AppHeader from '../app-header'
-import BurgerIngredients from '../burger-ingredients'
-import BurgerConstructor from '../burger-constructor'
-import { fetchIngredients } from '../../services/actions/ingredients'
-import styles from './style.module.css'
+import IngredientDetails from '../ingredient-details'
+import Modal from '../hocs/modal'
+import { CLEAR_INGREDIENT_DETAILS } from '../../services/actions/ingredientDetails'
+import { useDispatch } from 'react-redux'
 
 function App () {
-  const { ingredients } = useSelector(state => state)
-  const dispatch = useDispatch()
+  return (
+    <Router>
+      <AppInner />
+    </Router>
+  )
+}
 
-  React.useEffect(() => {
-    dispatch(fetchIngredients())
-  }, [dispatch])
+function AppInner () {
+  const location = useLocation()
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const backgroundLocation = location?.state?.backgroundLocation
+
+  /**
+   * Скрыть попап с деталями об ингредиенте
+   */
+  const modalCloseHandler = () => {
+    history.goBack()
+    dispatch({
+      type: CLEAR_INGREDIENT_DETAILS
+    })
+  }
 
   return (
-    <>
+    <div className="content">
       <AppHeader />
 
-      <DndProvider backend={HTML5Backend}>
-        {
-          ingredients.data.length &&
-          <main className={`${styles.main_container} pt-10`}>
-              <p className={`${styles.main_container_title} text text_type_main-large mb-5`}>
-                Соберите бургер
-              </p>
+      <Switch location={backgroundLocation || location}>
+        <Route
+          path="/"
+          exact={true}
+        >
+          <IngredientsConstructorPage />
+        </Route>
+        <Route path="/ingredients/:id">
+          <IngredientsPage />
+        </Route>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Route path="/register">
+          <RegisterPage />
+        </Route>
+        <Route path="/forgot-password">
+          <ForgotPasswordPage />
+        </Route>
+        <Route path="/reset-password">
+          <ResetPasswordPage />
+        </Route>
+        <ProtectedRoute
+          path="/profile"
+          exact={true}
+        >
+          <ProfilePage />
+        </ProtectedRoute>
+        <ProtectedRoute
+          path="/profile/orders"
+          exact={true}
+        >
+          <ProfileOrdersPage />
+        </ProtectedRoute>
+        <Route>
+          <Page404 />
+        </Route>
+      </Switch>
 
-              <BurgerIngredients />
-
-              <BurgerConstructor />
-          </main>
-        }
-      </DndProvider>
-    </>
+      {backgroundLocation &&
+        <Route path="/ingredients/:id">
+          <Modal
+            title="Детали ингредиента"
+            close={modalCloseHandler}
+          >
+            <IngredientDetails />
+          </Modal>
+        </Route>
+      }
+    </div>
   )
 }
 

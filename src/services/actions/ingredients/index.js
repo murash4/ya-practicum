@@ -11,8 +11,8 @@ export function fetchIngredients () {
 
     // Получаение и запись списка ингредиентов в state
     try {
-      const result = await fetch(`${apiUrl}ingredients`)
-      const parsedData = await checkResponse(result)
+      const parsedData = await fetch(`${apiUrl}ingredients`)
+        .then(checkResponse)
 
       dispatch({
         type: SET_INGREDIENTS,
