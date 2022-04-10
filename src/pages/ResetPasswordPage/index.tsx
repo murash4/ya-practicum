@@ -1,18 +1,20 @@
 import React, { useCallback, useRef } from 'react'
+import { TLocation, TTypePassword } from '../../utils/types'
 import { NavLink, Redirect, useLocation } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { changePassword } from '../../services/actions/user'
 
 const ResetPasswordPage = () => {
+  // @ts-ignore
   const user = useSelector(state => state.user)
   const [passwordValue, setPasswordValue] = React.useState('')
-  const [typePassword, setTypePassword] = React.useState('password')
+  const [typePassword, setTypePassword] = React.useState<TTypePassword>('password')
   const [tokenValue, setTokenValue] = React.useState('')
   const passwordRef = useRef(null)
   const tokenRef = useRef(null)
   const dispatch = useDispatch()
-  const location = useLocation()
+  const location = useLocation<TLocation>()
   const responseMessage = user.responseMessage
 
   /**
@@ -32,6 +34,7 @@ const ResetPasswordPage = () => {
     user.responseMessage === 'Password successfully reset'
   ) {
     return (
+      // @ts-ignore
       <Redirect to={ location.state?.from || '/' } />
     )
   }

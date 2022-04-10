@@ -3,7 +3,13 @@
  * @param {object} result
  * @return {Error|Promise}
  */
-export const checkResponse = async result => {
+
+type TCheckResponse = {
+  ok?: boolean
+  json: () => any
+}
+
+export const checkResponse = async <R>(result: TCheckResponse): Promise<R> => {
   if (!result.ok) {
     throw new Error('статус не \'ok\'')
   }

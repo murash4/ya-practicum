@@ -1,7 +1,13 @@
-import PropTypes from 'prop-types'
 import styles from './style.module.css'
+import { ReactElement } from 'react'
 
-export default function Btn (props) {
+interface IBtn {
+  icon: HTMLOrSVGImageElement | ReactElement
+  color: string
+  text: string
+}
+
+export default function Btn (props: IBtn) {
   return (
     <button className={`${styles.btn} pt-4 pr-5 pb-4 pl-5 mr-2`}>
       <span className={`${styles.icon_wrap} mr-2`}>
@@ -12,10 +18,4 @@ export default function Btn (props) {
       </span>
     </button>
   )
-}
-
-Btn.propTypes = {
-  icon: PropTypes.element.isRequired,
-  text: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired
 }

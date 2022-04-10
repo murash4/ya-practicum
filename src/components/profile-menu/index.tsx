@@ -6,7 +6,7 @@ import { logOut } from '../../services/actions/user'
 export default function ProfileMenu () {
   const dispatch = useDispatch()
 
-  const userLogOut = () => {
+  const userLogOut = (): void => {
     dispatch(logOut())
   }
 

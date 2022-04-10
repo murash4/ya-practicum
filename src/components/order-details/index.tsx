@@ -3,6 +3,7 @@ import checkboxImg from '../../images/done.png'
 import { useSelector } from 'react-redux'
 
 export default function OrderDetails () {
+  // @ts-ignore
   const { number } = useSelector(state => state.orderDetails.data.order)
 
   return (

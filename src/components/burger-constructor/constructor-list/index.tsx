@@ -5,11 +5,14 @@ import ConstructorListItem from './constructor-list-item'
 import style from './style.module.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
+import { IIngredient } from '../../../utils/types'
 import { addIngredient } from '../../../services/actions/burgerConstructor'
 import { SET_INGREDIENT } from '../../../services/actions/burgerConstructor/constants'
 
 export default function ConstructorList () {
+  // @ts-ignore
   const { items, bun } = useSelector(state => state.burgerConstructor)
+  // @ts-ignore
   const dispatch = useDispatch()
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -46,6 +49,7 @@ export default function ConstructorList () {
         <ConstructorListItem
           item={bun}
           position="top"
+          isBun={true}
         />
       }
 
@@ -56,12 +60,13 @@ export default function ConstructorList () {
           mb-4`
         }
       >
-        {items.map((item, index) => (
+        {items.map((item: IIngredient, index: number) => (
             <ConstructorListItem
               key={item.id}
               item={item}
               index={index}
               moveCard={moveCard}
+              isBun={false}
             />
           ))}
       </SimpleBar>
@@ -70,6 +75,7 @@ export default function ConstructorList () {
         bun && <ConstructorListItem
           item={bun}
           position="bottom"
+          isBun={true}
         />
       }
     </div>

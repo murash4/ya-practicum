@@ -8,6 +8,7 @@ import { fetchIngredients } from '../../services/actions/ingredients'
 import styles from './style.module.css'
 
 function IngredientsConstructorPage () {
+  // @ts-ignore
   const { ingredients } = useSelector(state => state)
   const dispatch = useDispatch()
 

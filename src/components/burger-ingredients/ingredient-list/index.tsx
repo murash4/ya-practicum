@@ -1,13 +1,19 @@
 import React from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
 import { SET_INGREDIENT_DETAILS } from '../../../services/actions/ingredientDetails'
-import { ingredientsNameType, ingredientType } from '../../../utils/types'
+import { IIngredient, TTypeName, TTypesName } from '../../../utils/types'
 import IngredientItem from './ingredient-item'
 import style from './style.module.css'
 
-export default function IngredientList (props) {
+interface IIngredientList {
+  refLink: string
+  typesName: TTypesName,
+  typeName: TTypeName
+  data: Array<IIngredient>
+}
+
+export default function IngredientList (props: IIngredientList) {
   const dispatch = useDispatch()
   const history = useHistory()
   const location = useLocation()
@@ -16,7 +22,7 @@ export default function IngredientList (props) {
    * Показать попап с деталями об ингредиенте
    * @param {object} item
    */
-  const showDetails = (item) => {
+  const showDetails = (item: IIngredient): void => {
     history.push({
       pathname: `/ingredients/${item._id}`,
       state: {
@@ -49,11 +55,4 @@ export default function IngredientList (props) {
       </div>
     </>
   )
-}
-
-IngredientList.propTypes = {
-  data: PropTypes.arrayOf(ingredientType).isRequired,
-  typesName: ingredientsNameType.isRequired,
-  typeName: PropTypes.string.isRequired,
-  refLink: PropTypes.object.isRequired
 }

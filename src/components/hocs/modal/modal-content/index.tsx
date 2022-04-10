@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types'
 import style from './style.module.css'
 
-export default function ModalContent (props) {
+interface IModalContent {
+  close: () => void
+}
+
+const ModalContent: FC<IModalContent> = (props) => {
   return (
     <div className={`${style.modal_content} pr-15 pl-15`}>
       <CloseIcon
@@ -18,7 +21,4 @@ export default function ModalContent (props) {
   )
 }
 
-ModalContent.propTypes = {
-  close: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired
-}
+export default ModalContent

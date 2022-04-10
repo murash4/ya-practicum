@@ -2,15 +2,17 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import {NavLink, Redirect, useLocation} from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector, useDispatch } from 'react-redux'
+import { TLocation } from '../../utils/types'
 import { getUser, resetPassword } from '../../services/actions/user'
 import Preloader from '../../components/preloader'
 
 const ForgotPasswordPage = () => {
+  // @ts-ignore
   const user = useSelector(state => state.user)
   const [emailValue, setEmailValue] = React.useState('')
-  const emailRef = useRef(null)
+  const emailRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch()
-  const location = useLocation()
+  const location = useLocation<TLocation>()
 
   // если есть токен, но зашли по прямой ссылке, то запрашиваем данные по пользователю
   useEffect(() => {
@@ -35,6 +37,7 @@ const ForgotPasswordPage = () => {
   // если пользователь существует, то уходит со страницы
   if (user.data) {
     return (
+      // @ts-ignore
       <Redirect to={ location.state?.from || '/' } />
     )
   }
