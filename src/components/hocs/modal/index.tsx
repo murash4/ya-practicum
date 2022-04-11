@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { FC } from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
 import ModalContent from './modal-content'
 import ModalOverlay from './modal-overlay'
 import style from './style.module.css'
 
-export default function Modal (props) {
-  const modalRoot = document.getElementById('modal')
+interface IModal {
+  close: () => void
+  title?: string
+}
+
+const Modal: FC<IModal> = (props) => {
+  const modalRoot: HTMLElement | null = document.getElementById('modal')
   const { close } = props
 
   React.useEffect(() => {
@@ -14,7 +18,7 @@ export default function Modal (props) {
      * Закрытие модалки при клике на Esc
      * @param {object} e
      */
-    function closeByEsc (e) {
+    function closeByEsc (e: KeyboardEvent) {
       if (e.key === 'Escape') {
         close()
       }
@@ -26,6 +30,10 @@ export default function Modal (props) {
       document.removeEventListener('keydown', closeByEsc)
     }
   }, [close])
+
+  if (!modalRoot) {
+    return <div />
+  }
 
   return ReactDOM.createPortal(
     <div className={style.modal}>
@@ -47,8 +55,4 @@ export default function Modal (props) {
   )
 }
 
-Modal.propTypes = {
-  title: PropTypes.string,
-  children: PropTypes.element.isRequired,
-  close: PropTypes.func.isRequired
-}
+export default Modal

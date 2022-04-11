@@ -5,6 +5,7 @@ import { throttle } from 'lodash'
 import IngredientList from './ingredient-list'
 import Tabs from './tabs'
 import style from './style.module.css'
+import { IIngredient, TTypeName } from '../../utils/types'
 
 const typesName = {
   bun: 'Булки',
@@ -13,25 +14,32 @@ const typesName = {
 }
 
 export default function BurgerIngredients () {
+  // @ts-ignore
   const ingredients = useSelector(state => state.ingredients.data)
   const [currentIngredientType, setCurrent] = React.useState('bun')
-  const scrollableNodeRef = useRef()
-  const refs = {
-    bun: useRef(),
-    main: useRef(),
-    sauce: useRef()
+  const scrollableNodeRef = useRef<HTMLDivElement>()
+  const refs: any = {
+    bun: useRef<HTMLDivElement>(),
+    main: useRef<HTMLDivElement>(),
+    sauce: useRef<HTMLDivElement>()
   }
 
-  const toggleTab = (type) => {
+  /**
+   * Переключение активной табы
+   * @param {string} type
+   */
+  const toggleTab = (type: string): void => {
     setCurrent(type)
-    scrollableNodeRef.current.scrollTop = refs[type].current.offsetTop
+    if (scrollableNodeRef.current) {
+      scrollableNodeRef.current.scrollTop = refs[type].current.offsetTop
+    }
   }
 
   /**
    * Возвращает все названия типов ингредиентов
    * @return {array}
    */
-  const ingredientTypes = ingredients.reduce((acc, item) => {
+  const ingredientTypes = ingredients.reduce((acc: Array<string>, item: IIngredient) => {
     if (!acc.includes(item.type)) {
       acc.push(item.type)
     }
@@ -44,8 +52,8 @@ export default function BurgerIngredients () {
     /**
      * Подсветка нужной табы при скроле ингредиентов
      */
-    function checkScroll () {
-      const scrollTop = scrollableNodeRef.current.scrollTop
+    function checkScroll (): void {
+      let scrollTop = scrollableNodeRef.current ? scrollableNodeRef.current.scrollTop : 0
       const scrolls = [
         { name: 'bun', value: Math.abs(refs.bun.current.offsetTop - scrollTop) },
         { name: 'main', value: Math.abs(refs.main.current.offsetTop - scrollTop) },
@@ -61,10 +69,10 @@ export default function BurgerIngredients () {
       checkScroll()
     }, 100)
 
-    scrollbarNode.addEventListener('scroll', onScroll, { passive: true })
+    scrollbarNode && scrollbarNode.addEventListener('scroll', onScroll)
 
     return () => {
-      scrollbarNode.removeEventListener('scroll', onScroll, { passive: true })
+      scrollbarNode && scrollbarNode.removeEventListener('scroll', onScroll)
     }
   }, [refs.bun, refs.main, refs.sauce])
 
@@ -82,8 +90,8 @@ export default function BurgerIngredients () {
         className={style.simplebar}
       >
         {
-          ingredientTypes.map(name => {
-            const filteredData = ingredients.filter(ingredient => ingredient.type === name)
+          ingredientTypes.map((name: TTypeName) => {
+            const filteredData = ingredients.filter((ingredient: IIngredient) => ingredient.type === name)
 
             return (
               <IngredientList

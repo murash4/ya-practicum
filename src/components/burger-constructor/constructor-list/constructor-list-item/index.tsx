@@ -4,8 +4,7 @@ import {
   ConstructorElement,
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types'
-import { ingredientType } from '../../../../utils/types'
+import { IIngredient } from '../../../../utils/types'
 import { useDispatch } from 'react-redux'
 import { removeIngredient } from '../../../../services/actions/burgerConstructor'
 import style from './style.module.css'
@@ -14,7 +13,15 @@ const dragStyle = {
   cursor: 'move'
 }
 
-export default function ConstructorListItem (props) {
+interface IProps {
+  item: IIngredient
+  index?: number
+  isBun?: boolean
+  position?: 'top' | 'bottom'
+  moveCard?: (i1: number, i2: number) => void
+}
+
+export default function ConstructorListItem (props: IProps) {
   const dispatch = useDispatch()
   const removeItem = () => {
     dispatch(removeIngredient(props.item))
@@ -23,29 +30,16 @@ export default function ConstructorListItem (props) {
    * Дополняем текст для верхней/нижней булки
    * @param {string} startText
    * @param {string} position
+   * @param {boolean} isBun
    * @returns {string}
    */
-  function getText (startText, position) {
-    let text = ''
-
-    if (position === 'top') {
-      text = ' (верх)'
-    } else if (position === 'bottom') {
-      text = ' (низ)'
-    }
+  function getText (startText: string, position: string): string {
+    const text = position === 'top' ? ' (верх)' : ' (низ)'
 
     return (startText + text)
   }
 
-  /**
-   * Возвращает флаг, что ингредиент не находится в скролящемся блоке (булка)
-   * @return {boolean}
-   */
-  function isBun () {
-    return props.position
-  }
-
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
   const [{ isDragging }, drag] = useDrag({
     type: 'cart',
     item: () => {
@@ -71,8 +65,9 @@ export default function ConstructorListItem (props) {
         return
       }
 
+      // @ts-ignore
       const dragIndex = item.index
-      const hoverIndex = props.index
+      const hoverIndex = props.index || 0
 
       // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
@@ -86,7 +81,11 @@ export default function ConstructorListItem (props) {
       // Determine mouse position
       const clientOffset = monitor.getClientOffset()
       // Get pixels to the top
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+      let hoverClientY = 0
+
+      if (clientOffset) {
+        hoverClientY = clientOffset.y - hoverBoundingRect.top
+      }
       // Only perform the move when the mouse has crossed half of the items height
       // When dragging downwards, only move when the cursor is below 50%
       // When dragging upwards, only move when the cursor is above 50%
@@ -102,11 +101,14 @@ export default function ConstructorListItem (props) {
       }
 
       // Time to actually perform the action
-      props.moveCard(dragIndex, hoverIndex)
+      if (props.moveCard) {
+        props.moveCard(dragIndex, hoverIndex)
+      }
       // Note: we're mutating the monitor item here!
       // Generally it's better to avoid mutations,
       // but it's good here for the sake of performance
       // to avoid expensive index searches.
+      // @ts-ignore
       item.index = hoverIndex
     }
   })
@@ -121,27 +123,34 @@ export default function ConstructorListItem (props) {
       className={`
         ${style.item}
         pl-4 pr-4 mb-4
-        ${isBun() ? 'pointer-none' : ''}
+        ${props.isBun ? 'pointer-none' : ''}
       `}
     >
       <div className={`${style.drag_ic_wrap}`}>
-        {!isBun() && <DragIcon type="primary" />}
+        {!props.isBun && <DragIcon type="primary" />}
       </div>
 
-      <ConstructorElement
-        className={`${style.item}`}
-        type={props.position}
-        isLocked={isBun()}
-        text={getText(props.item.name, props.position)}
-        price={props.item.price}
-        thumbnail={props.item.image_mobile}
-        handleClose={removeItem}
-      />
+      {
+        props.isBun && props.position && <ConstructorElement
+          type={props.position}
+          isLocked={props.isBun}
+          text={getText(props.item.name, props.position)}
+          price={props.item.price}
+          thumbnail={props.item.image_mobile}
+          handleClose={removeItem}
+        />
+      }
+
+      {
+        !props.isBun && <ConstructorElement
+          isLocked={props.isBun}
+          text={props.item.name}
+          price={props.item.price}
+          thumbnail={props.item.image_mobile}
+          handleClose={removeItem}
+        />
+      }
+
     </div>
   )
-}
-
-ConstructorListItem.propTypes = {
-  item: ingredientType.isRequired,
-  position: PropTypes.oneOf(['top', 'bottom', undefined])
 }

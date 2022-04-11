@@ -1,11 +1,11 @@
-import React from 'react'
-import { ProtectedRoute } from '../protected-route'
+import React  from 'react'
+import ProtectedRoute from '../protected-route'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   useLocation,
-  useHistory,
+  useHistory
 } from 'react-router-dom'
 import {
   IngredientsConstructorPage,
@@ -23,6 +23,7 @@ import IngredientDetails from '../ingredient-details'
 import Modal from '../hocs/modal'
 import { CLEAR_INGREDIENT_DETAILS } from '../../services/actions/ingredientDetails'
 import { useDispatch } from 'react-redux'
+import { TLocation } from '../../utils/types'
 
 function App () {
   return (
@@ -32,8 +33,12 @@ function App () {
   )
 }
 
+type TUpgradeLocation = TLocation & {
+  backgroundLocation?: TLocation
+}
+
 function AppInner () {
-  const location = useLocation()
+  const location = useLocation<TUpgradeLocation>()
   const history = useHistory()
   const dispatch = useDispatch()
   const backgroundLocation = location?.state?.backgroundLocation
@@ -41,7 +46,7 @@ function AppInner () {
   /**
    * Скрыть попап с деталями об ингредиенте
    */
-  const modalCloseHandler = () => {
+  const modalCloseHandler = (): void => {
     history.goBack()
     dispatch({
       type: CLEAR_INGREDIENT_DETAILS

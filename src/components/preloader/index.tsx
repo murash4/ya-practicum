@@ -1,7 +1,10 @@
 import styles from './style.module.css'
-import PropTypes from 'prop-types'
 
-export default function Preloader (props) {
+interface IPreloader {
+  fullPage?: boolean
+}
+
+export default function Preloader (props: IPreloader) {
   return (
     <div
       className={`
@@ -14,8 +17,4 @@ export default function Preloader (props) {
       </div>
     </div>
   )
-}
-
-Preloader.propTypes = {
-  fullPage: PropTypes.bool
 }

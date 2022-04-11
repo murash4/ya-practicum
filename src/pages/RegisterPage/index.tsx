@@ -1,21 +1,23 @@
 import React, {useRef, useCallback, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, Redirect, useLocation } from 'react-router-dom'
+import { TLocation, TTypePassword } from '../../utils/types'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { getUser, signUp } from '../../services/actions/user'
 import Preloader from '../../components/preloader'
 
 const RegisterPage = () => {
+  // @ts-ignore
   const user = useSelector(state => state.user)
   const [nameValue, setNameValue] = React.useState('')
   const [emailValue, setEmailValue] = React.useState('')
   const [passwordValue, setPasswordValue] = React.useState('')
-  const [typePassword, setTypePassword] = React.useState('password')
-  const nameRef = useRef(null)
-  const emailRef = useRef(null)
-  const passwordRef = useRef(null)
+  const [typePassword, setTypePassword] = React.useState<TTypePassword>('password')
+  const nameRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
   const dispatch = useDispatch()
-  const location = useLocation()
+  const location = useLocation<TLocation>()
 
   /**
    * Переключает видимость введенного пароля
@@ -51,6 +53,7 @@ const RegisterPage = () => {
   // если пользователь существует, то уходит со страницы
   if (user.data) {
     return (
+      // @ts-ignore
       <Redirect to={ location.state?.from || '/' } />
     )
   }

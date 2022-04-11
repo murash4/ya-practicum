@@ -10,11 +10,16 @@ import {
 import Modal from '../../hocs/modal'
 import OrderDetails from '../../order-details'
 import style from './style.module.css'
+import { IIngredient } from '../../../utils/types'
 
 export default function ConstructorFooter () {
+  // @ts-ignore
   const user = useSelector(state => state.user)
+  // @ts-ignore
   const { isLoading, error } = useSelector(state => state.orderDetails)
+  // @ts-ignore
   const { items, bun } = useSelector(state => state.burgerConstructor)
+  // @ts-ignore
   const order = useSelector(state => state.orderDetails.data)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -24,10 +29,10 @@ export default function ConstructorFooter () {
    * Возвращает сумму всех ингредиентов
    * @return {number}
    */
-  function getAllSum () {
+  function getAllSum (): number {
     const arr = bun ? [...items, bun, bun] : items
 
-    return arr.reduce((acc, item) => {
+    return arr.reduce((acc: number, item: IIngredient) => {
       return acc + item.price
     }, 0)
   }
@@ -44,7 +49,7 @@ export default function ConstructorFooter () {
   /**
    * Скрытие модалки с информацией о заказе
    */
-  const hidePopup = () => {
+  const hidePopup = (): void => {
     setVisiblePopup(false)
     dispatch({
       type: CLEAR_CONSTRUCTOR
@@ -55,7 +60,7 @@ export default function ConstructorFooter () {
    * Возвращает массив с id всех ингредиентов
    * @return {array}
    */
-  const getAllIds = () => {
+  const getAllIds = (): Array<string> => {
     const array = [...items, bun]
 
     return array.map(item => item._id)
@@ -64,7 +69,7 @@ export default function ConstructorFooter () {
   /**
    * Получает номер заказа с бэкенда
    */
-  const getOrderNumber = () => {
+  const getOrderNumber = (): void => {
     const data = JSON.stringify({ ingredients: getAllIds() })
 
     dispatch(fetchOrder(data))
@@ -73,7 +78,7 @@ export default function ConstructorFooter () {
   /**
    * Обработчик клика на кнопку оформления заказа
    */
-  const orderHandler = () => {
+  const orderHandler = (): void => {
     user.data ? getOrderNumber() : history.push({ pathname: '/login' })
   }
 

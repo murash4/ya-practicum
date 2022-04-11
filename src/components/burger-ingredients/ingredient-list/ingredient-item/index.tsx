@@ -1,10 +1,16 @@
 import { useSelector } from 'react-redux'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { ingredientType } from '../../../../utils/types'
 import { useDrag } from 'react-dnd'
+import { IIngredient } from '../../../../utils/types'
 import style from './style.module.css'
 
-export default function IngredientItem ({ item, showDetails }) {
+interface IIngredientItem {
+  item: IIngredient
+  showDetails: (i: IIngredient) => void
+}
+
+export default function IngredientItem ({ item, showDetails }: IIngredientItem) {
+  // @ts-ignore
   const { count } = useSelector(state => state.burgerConstructor)
   const [, dragRef] = useDrag({
     type: 'ingredient',
@@ -40,8 +46,4 @@ export default function IngredientItem ({ item, showDetails }) {
       </div>
     </div>
   )
-}
-
-IngredientItem.propTypes = {
-  item: ingredientType.isRequired
 }

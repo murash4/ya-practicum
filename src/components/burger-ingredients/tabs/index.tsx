@@ -1,9 +1,15 @@
 import React from 'react'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import PropTypes from 'prop-types'
-import { ingredientsNameType } from '../../../utils/types'
+import { TTypesName, TTypeName } from '../../../utils/types'
 
-export default function Tabs (props) {
+interface ITabs {
+  types: Array<TTypeName>
+  current: string
+  toggleTab: (type: string) => void
+  typesName: TTypesName
+}
+
+export default function Tabs (props: ITabs) {
   return (
     <div className="mb-10" style={{ display: 'flex' }}>
       {props.types.map((item, index) => (
@@ -18,11 +24,4 @@ export default function Tabs (props) {
       ))}
     </div>
   )
-}
-
-Tabs.propTypes = {
-  types: PropTypes.arrayOf(PropTypes.string).isRequired,
-  current: PropTypes.string.isRequired,
-  toggleTab: PropTypes.func.isRequired,
-  typesName: ingredientsNameType.isRequired
 }

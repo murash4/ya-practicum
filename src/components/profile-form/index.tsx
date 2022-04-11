@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { SyntheticEvent, useCallback, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { editUser } from '../../services/actions/user'
 
 export default function ProfileForm () {
+  // @ts-ignore
   const user = useSelector(state => state.user)
   const [nameValue, setNameValue] = React.useState('')
   const [emailValue, setEmailValue] = React.useState('')
@@ -20,16 +21,19 @@ export default function ProfileForm () {
   /**
    * Переключает возможность редактирования поля
    */
-  const toggleEdit = (type) => {
+  const toggleEdit = (type: string): void => {
     switch (type) {
       case 'name': {
-        return setNameDisabled(!nameDisabled)
+        setNameDisabled(!nameDisabled)
+        break
       }
       case 'email': {
-        return setEmailDisabled(!emailDisabled)
+        setEmailDisabled(!emailDisabled)
+        break
       }
       case 'password': {
-        return setPasswordDisabled(!passwordDisabled)
+        setPasswordDisabled(!passwordDisabled)
+        break
       }
       default:
         break
@@ -38,27 +42,34 @@ export default function ProfileForm () {
 
   /**
    * Сброс измененных данных пользователя
-   * @param {object|undefined} e
    */
-  const resetUser = useCallback(
+  const resetUser = useCallback(() => {
+    setNameValue(user.data.name)
+    setEmailValue(user.data.email)
+    setNameDisabled(true)
+    setEmailDisabled(true)
+    setPasswordDisabled(true)
+  }, [user])
+
+  /**
+   * Обработчик кнопки для сброса изменений формы
+   * @param {object} e
+   */
+  const resetUserHandler = useCallback(
     e => {
       if (e) {
         e.preventDefault()
       }
 
-      setNameValue(user.data.name)
-      setEmailValue(user.data.email)
-      setNameDisabled(true)
-      setEmailDisabled(true)
-      setPasswordDisabled(true)
-    }, [user]
+      resetUser()
+    }, [resetUser]
   )
 
   /**
    * Сохранение данных пользователя
    * @param {object} e
    */
-  const saveUser = e => {
+  const saveUser = (e: SyntheticEvent): void => {
     e.preventDefault()
 
     dispatch(editUser({
@@ -130,7 +141,7 @@ export default function ProfileForm () {
           type="primary"
           size="large"
           disabled={!isFormChanged}
-          onClick={resetUser}
+          onClick={resetUserHandler}
         >
           Отмена
         </Button>
