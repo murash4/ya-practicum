@@ -1,0 +1,36 @@
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.item:last-child {
+  margin-bottom: 0;
+}
+
+.title {
+  flex: 1 1 auto;
+}
+
+.img {
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(to right, #801AB2, #4C4CFF);
+}
+
+.img:before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  top: 1px;
+  bottom: 1px;
+  border-radius: 50%;
+  background: #131316;
+}

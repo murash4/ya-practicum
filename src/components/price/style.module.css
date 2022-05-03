@@ -1,0 +1,9 @@
+.priceWr {
+  display: flex;
+  align-items: center;
+}
+
+.price {
+  margin-right: 8px;
+  white-space: nowrap;
+}

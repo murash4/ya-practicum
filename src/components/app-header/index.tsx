@@ -25,7 +25,7 @@ export default function AppHeader () {
             />
           </NavLink>
           <NavLink
-            to="/profils/orders"
+            to="/feed"
             className="header__button"
             exact={true}
           >

@@ -16,6 +16,8 @@ import {
   ProfilePage,
   ProfileOrdersPage,
   IngredientsPage,
+  FeedPage,
+  OrderInfoPage,
   Page404
 } from '../../pages'
 import AppHeader from '../app-header'
@@ -67,6 +69,14 @@ function AppInner () {
         <Route path="/ingredients/:id">
           <IngredientsPage />
         </Route>
+        <Route
+          exact
+          path="/feed"
+          children={<FeedPage />}
+        />
+        <Route path="/feed/:id">
+          <OrderInfoPage notInModal={true} />
+        </Route>
         <Route path="/login">
           <LoginPage />
         </Route>
@@ -91,6 +101,12 @@ function AppInner () {
         >
           <ProfileOrdersPage />
         </ProtectedRoute>
+        <ProtectedRoute
+          path="/profile/orders/:id"
+          exact={true}
+        >
+          <OrderInfoPage notInModal={true} />
+        </ProtectedRoute>
         <Route>
           <Page404 />
         </Route>
@@ -105,6 +121,25 @@ function AppInner () {
             <IngredientDetails />
           </Modal>
         </Route>
+      }
+
+      {backgroundLocation &&
+        <Route path="/feed/:id">
+          <Modal close={() => history.goBack()}>
+            <OrderInfoPage />
+          </Modal>
+        </Route>
+      }
+
+      {backgroundLocation &&
+        <ProtectedRoute
+          path="/profile/orders/:id"
+          exact={true}
+        >
+          <Modal close={() => history.goBack()}>
+            <OrderInfoPage />
+          </Modal>
+        </ProtectedRoute>
       }
     </div>
   )
