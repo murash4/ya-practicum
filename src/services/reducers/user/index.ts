@@ -4,17 +4,26 @@ import {
   CLEAR_USER_DATA,
   SET_USER_DATA_ERROR,
   CLEAR_USER_DATA_ERROR,
-  SET_USER_MESSAGE
+  SET_USER_MESSAGE,
+  TUserActions,
+  IUserData
 } from '../../actions/user/constants'
 
-const initialState = {
+export interface IUserState {
+  data: null | IUserData
+  isLoading: boolean
+  error: boolean
+  responseMessage: null | string
+}
+
+const initialState: IUserState = {
   data: null,
   isLoading: false,
   error: false,
   responseMessage: null
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: TUserActions): IUserState => {
   switch (action.type) {
     case CLEAR_USER_DATA_ERROR: {
       return {

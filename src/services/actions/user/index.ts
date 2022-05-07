@@ -3,16 +3,31 @@ import {
   SET_USER_DATA,
   SET_USER_DATA_ERROR,
   SET_USER_MESSAGE,
-  CLEAR_USER_DATA
+  CLEAR_USER_DATA,
+  TUserActions, IUserData
 } from './constants'
+import { IUserState } from '../../reducers/user'
 import { apiUrl, authUrl } from '../../../utils/api'
 import { cookie } from '../../../utils/cookie'
 import { checkResponse } from '../../../helpers/api'
+import { ThunkAction } from 'redux-thunk'
+
+interface ITokens {
+  accessToken: string,
+  refreshToken: string
+}
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  IUserState,
+  unknown,
+  TUserActions
+>
 
 /**
  * Обновление токена
  */
-export const updateToken = (callback) => {
+export const updateToken = (callback: Function): AppThunk<Promise<void>> => {
   return async dispatch => {
     dispatch({
       type: SET_USER_LOADING,
@@ -30,11 +45,11 @@ export const updateToken = (callback) => {
         },
         body: JSON.stringify(data)
       })
-        .then(checkResponse)
+        .then(res => checkResponse<ITokens>(res))
       const cookieTime = Date.now() + 20 * 60 * 1000
       const accessToken = parsedData.accessToken.split('Bearer ')[1]
 
-      cookie.set('token', accessToken, {expires: new Date(cookieTime)})
+      cookie.set('token', accessToken, { expires: new Date(cookieTime) })
       cookie.set('refreshToken', parsedData.refreshToken)
     } catch (e) {
       console.log('Ошибка запроса к api: ', e)
@@ -55,7 +70,7 @@ export const updateToken = (callback) => {
  * Получение информации о пользователе
  * @returns {Promise}
  */
-export function getUser () {
+export function getUser (): AppThunk<Promise<void>> {
   return async dispatch => {
     let isJwtMalformed = false
     dispatch({
@@ -121,11 +136,22 @@ export function getUser () {
   }
 }
 
+interface IEditUserData {
+  email: string,
+  name: string,
+  password: string
+}
+
+interface IEditUserFetchData {
+  message: string,
+  user: IUserData
+}
+
 /**
  * Обновление информации о пользователе
  * @returns {Promise}
  */
-export function editUser (data) {
+export function editUser (data: IEditUserData): AppThunk<Promise<void>> {
   return async dispatch => {
     dispatch({
       type: SET_USER_LOADING,
@@ -142,11 +168,11 @@ export function editUser (data) {
         },
         body: JSON.stringify(data)
       })
-        .then(checkResponse)
+        .then(res => checkResponse<IEditUserFetchData>(res))
 
       // Если есть сообщение с ошибкой о истекшем токене
       if (parsedData.message === 'jwt malformed' && cookie.get('refreshToken')) {
-        dispatch(updateToken())
+        dispatch(updateToken)
         return
       }
 
@@ -174,11 +200,22 @@ export function editUser (data) {
   }
 }
 
+interface ISignInFetch {
+  accessToken: string
+  refreshToken: string
+  user: IUserData
+}
+
+interface ISignInData {
+  email: string,
+  password: string
+}
+
 /**
  * Авторизация
  * @param {object} data
  */
-export function signIn (data) {
+export function signIn (data: ISignInData): AppThunk<Promise<void>> {
   return async dispatch => {
     dispatch({
       type: SET_USER_LOADING,
@@ -194,7 +231,7 @@ export function signIn (data) {
         },
         body: JSON.stringify(data)
       })
-        .then(checkResponse)
+        .then(res => checkResponse<ISignInFetch>(res))
       const accessToken = parsedData.accessToken.split('Bearer ')[1]
       const cookieTime = Date.now() + 20 * 60 * 1000
 
@@ -219,11 +256,17 @@ export function signIn (data) {
   }
 }
 
+interface ISignUpData {
+  email: string,
+  password: string,
+  name: string
+}
+
 /**
  * Регистрация
  * @param {object} data
  */
-export function signUp (data) {
+export function signUp (data: ISignUpData): AppThunk<Promise<void>> {
   return async dispatch => {
     dispatch({
       type: SET_USER_LOADING,
@@ -239,7 +282,7 @@ export function signUp (data) {
         },
         body: JSON.stringify(data)
       })
-        .then(checkResponse)
+        .then(res => checkResponse<ISignInFetch>(res))
       const accessToken = parsedData.accessToken.split('Bearer ')[1];
       const cookieTime = Date.now() + 20 * 60 * 1000
 
@@ -264,11 +307,20 @@ export function signUp (data) {
   }
 }
 
+interface IResetPasswordFetch {
+  message: string,
+  success: boolean
+}
+
+interface IResetPasswordData {
+  email: string
+}
+
 /**
  * Сброс пароля
  * @param {object} data
  */
-export function resetPassword (data) {
+export function resetPassword (data: IResetPasswordData): AppThunk<Promise<void>> {
   return async dispatch => {
     dispatch({
       type: SET_USER_LOADING,
@@ -284,7 +336,7 @@ export function resetPassword (data) {
         },
         body: JSON.stringify(data)
       })
-        .then(checkResponse)
+        .then(res => checkResponse<IResetPasswordFetch>(res))
 
       if (parsedData.success && parsedData.message === 'Reset email sent') {
         dispatch({
@@ -308,11 +360,16 @@ export function resetPassword (data) {
   }
 }
 
+interface IChangePasswordData {
+  password: string,
+  token: string
+}
+
 /**
  * Установка нового пароля
  * @param {object} data
  */
-export function changePassword (data) {
+export function changePassword (data: IChangePasswordData): AppThunk<Promise<void>> {
   return async dispatch => {
     dispatch({
       type: SET_USER_LOADING,
@@ -328,7 +385,7 @@ export function changePassword (data) {
         },
         body: JSON.stringify(data)
       })
-        .then(checkResponse)
+        .then(res => checkResponse<IResetPasswordFetch>(res))
 
       if (parsedData.success && parsedData.message === 'Password successfully reset') {
         dispatch({
@@ -355,7 +412,7 @@ export function changePassword (data) {
 /**
  * Выход из аккаунта
  */
-export function logOut () {
+export function logOut (): AppThunk<Promise<void>> {
   return async dispatch => {
     dispatch({
       type: SET_USER_LOADING,
@@ -372,7 +429,7 @@ export function logOut () {
         },
         body: JSON.stringify(data)
       })
-        .then(checkResponse)
+        .then(res => checkResponse<IResetPasswordFetch>(res))
 
       if (parsedData.success && parsedData.message === 'Successful logout') {
         cookie.remove('token')

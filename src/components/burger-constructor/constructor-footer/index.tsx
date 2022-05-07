@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { fetchOrder } from  '../../../services/actions/orderDetails'
+import { fetchOrder } from '../../../services/actions/orderDetails'
 import { CLEAR_CONSTRUCTOR } from '../../../services/actions/burgerConstructor/constants'
 import {
   Button,

@@ -16,7 +16,7 @@ export default function ConstructorList () {
   const dispatch = useDispatch()
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(item) {
+    drop(item: IIngredient) {
       dispatch(addIngredient(item))
     },
     collect: monitor => ({

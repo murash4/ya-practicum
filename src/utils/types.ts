@@ -29,3 +29,8 @@ export type TLocation = {
 }
 
 export type TTypePassword = 'text' | 'password'
+
+export interface IFetchIngredients {
+  data: Array<IIngredient>
+  success?: boolean
+}

@@ -6,9 +6,10 @@ import {
 } from './constants'
 import { apiUrl } from '../../../utils/api'
 import { checkResponse } from '../../../helpers/api'
+import { Dispatch } from 'redux'
 
-export function fetchOrder (ingredients) {
-  return async dispatch => {
+export function fetchOrder (ingredients: string) {
+  return async (dispatch: Dispatch) => {
     dispatch({
       type: CLEAR_ORDER_DETAILS_ERROR
     })

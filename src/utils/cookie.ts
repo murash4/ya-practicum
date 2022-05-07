@@ -4,8 +4,8 @@ type TSet = [
   string,
   any,
   {
-    expires: number
-  }
+    expires: Date
+  }?
 ]
 
 /**
