@@ -7,6 +7,7 @@ import {
 import { apiUrl } from '../../../utils/api'
 import { checkResponse } from '../../../helpers/api'
 import { Dispatch } from 'redux'
+import {cookie} from "../../../utils/cookie";
 
 export function fetchOrder (ingredients: string) {
   return async (dispatch: Dispatch) => {
@@ -22,7 +23,8 @@ export function fetchOrder (ingredients: string) {
       const parsedData = await fetch(`${apiUrl}orders`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${cookie.get('token')}`
         },
         body: ingredients
       })

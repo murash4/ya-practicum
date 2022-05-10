@@ -5,19 +5,27 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { rootReducer } from './services/reducers'
 import App from './components/app'
+import { socketMiddleware } from './middleware/socketMiddleware'
+import { userSocketMiddleware } from './middleware/userSocketMiddleware'
 import './index.css'
 import 'simplebar/dist/simplebar.min.css'
 import './assets/css/simplebar.css'
-// import reportWebVitals from './reportWebVitals';
 
 const composeEnhancers =
   // @ts-ignore
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     // @ts-ignore
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-const store = createStore(rootReducer, enhancer)
+    : compose
+const enhancer = composeEnhancers(applyMiddleware(
+  thunk,
+  socketMiddleware('wss://norma.nomoreparties.space/orders/all'),
+  userSocketMiddleware('wss://norma.nomoreparties.space/orders')
+))
+const store = createStore(
+  rootReducer,
+  enhancer
+)
 
 ReactDOM.render(
   <React.StrictMode>

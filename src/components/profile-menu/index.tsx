@@ -2,6 +2,7 @@ import React, {FC} from 'react'
 import { useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { logOut } from '../../services/actions/user'
+import { WS_USER_ORDERS_CONNECTION_CLOSED } from '../../services/actions/wsUserOrders'
 
 interface IProfileMenu {
   text: string
@@ -11,6 +12,7 @@ const ProfileMenu: FC<IProfileMenu> = ({ text }) => {
   const dispatch = useDispatch()
 
   const userLogOut = (): void => {
+    dispatch({ type: WS_USER_ORDERS_CONNECTION_CLOSED })
     dispatch(logOut())
   }
 

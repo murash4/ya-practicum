@@ -105,7 +105,10 @@ function AppInner () {
           path="/profile/orders/:id"
           exact={true}
         >
-          <OrderInfoPage notInModal={true} />
+          <OrderInfoPage
+            notInModal={true}
+            isPrivate={true}
+          />
         </ProtectedRoute>
         <Route>
           <Page404 />
@@ -137,7 +140,7 @@ function AppInner () {
           exact={true}
         >
           <Modal close={() => history.goBack()}>
-            <OrderInfoPage />
+            <OrderInfoPage isPrivate={true} />
           </Modal>
         </ProtectedRoute>
       }
