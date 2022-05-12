@@ -3,16 +3,14 @@ import update from 'immutability-helper'
 import SimpleBar from 'simplebar-react'
 import ConstructorListItem from './constructor-list-item'
 import style from './style.module.css'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../../services/store'
 import { useDrop } from 'react-dnd'
 import { IIngredient } from '../../../utils/types'
 import { addIngredient } from '../../../services/actions/burgerConstructor'
 import { SET_INGREDIENT } from '../../../services/actions/burgerConstructor/constants'
 
 export default function ConstructorList () {
-  // @ts-ignore
   const { items, bun } = useSelector(state => state.burgerConstructor)
-  // @ts-ignore
   const dispatch = useDispatch()
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',

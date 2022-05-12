@@ -24,7 +24,7 @@ import AppHeader from '../app-header'
 import IngredientDetails from '../ingredient-details'
 import Modal from '../hocs/modal'
 import { CLEAR_INGREDIENT_DETAILS } from '../../services/actions/ingredientDetails'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../services/store'
 import { TLocation } from '../../utils/types'
 
 function App () {

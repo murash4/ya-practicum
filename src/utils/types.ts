@@ -2,7 +2,7 @@ export interface IIngredient {
   id?: number
   _id: string
   name: string
-  type: string
+  type: TTypeName
   proteins: number
   fat: number
   carbohydrates: number
@@ -25,7 +25,8 @@ export type TLocation = {
   key: string
   pathname: string
   search: string
-  state: { from: string } | null
+  state: { from: string } | undefined
+  from: string | undefined
 }
 
 export type TTypePassword = 'text' | 'password'

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from '../../services/store'
+import { useSelector, useDispatch } from '../../services/store'
 import SimpleBar from 'simplebar-react'
 import ProfileMenu from '../../components/profile-menu'
 import OrderFeed from '../../components/order-feed'
@@ -26,7 +25,7 @@ const ProfileOrdersPage = () => {
         accessToken: cookie.get('token')
       })
     }
-  }, [dispatch, wsUserOrders.wsConnected])
+  }, [dispatch, wsUserOrders.wsConnected, ingredients.data.length, ingredients.isLoading])
 
   return (
     <div className="profile">

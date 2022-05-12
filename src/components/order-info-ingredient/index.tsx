@@ -2,7 +2,6 @@ import { FC } from 'react'
 import Price from '../price'
 import { useSelector } from '../../services/store'
 import styles from './style.module.css'
-import { IIngredient } from "../../utils/types";
 
 interface IOrderInfoIngredient {
   id: string
@@ -11,8 +10,7 @@ interface IOrderInfoIngredient {
 
 const OrderInfoIngredient: FC<IOrderInfoIngredient> = ({ id, ingredeintCount }) => {
   const ingredients = useSelector(state => state.ingredients.data)
-  // @ts-ignore
-  const ingredient: IIngredient = ingredients.find(item => item._id === id)
+  const ingredient = ingredients.find(item => item._id === id)
 
   if (!ingredient) {
     return <></>

@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { NavLink, Redirect, useLocation } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from '../../services/store'
 import { TLocation, TTypePassword } from '../../utils/types'
 import { getUser, signIn } from '../../services/actions/user'
 import Preloader from '../../components/preloader'
 
 const LoginPage = () => {
-  // @ts-ignore
   const user = useSelector(state => state.user)
   const [emailValue, setEmailValue] = React.useState('')
   const [passwordValue, setPasswordValue] = React.useState('')
@@ -50,7 +49,6 @@ const LoginPage = () => {
   // если пользователь существует, то уходит со страницы
   if (user.data) {
     return (
-      // @ts-ignore
       <Redirect to={ location.state?.from || '/' } />
     )
   }

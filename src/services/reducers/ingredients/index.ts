@@ -3,10 +3,10 @@ import {
   SET_INGREDIENTS,
   TIngredientsActions
 } from '../../actions/ingredients/constants'
-import { IFetchIngredients } from '../../../utils/types'
+import { IIngredient } from '../../../utils/types'
 
 interface IIngredientsState {
-  data: Array<IFetchIngredients>
+  data: Array<IIngredient>
   isLoading: boolean
 }
 

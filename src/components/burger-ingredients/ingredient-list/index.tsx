@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../../services/store'
 import { SET_INGREDIENT_DETAILS } from '../../../services/actions/ingredientDetails'
 import { IIngredient, TTypeName, TTypesName } from '../../../utils/types'
 import IngredientItem from './ingredient-item'

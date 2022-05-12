@@ -5,7 +5,7 @@ import {
   DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import { IIngredient } from '../../../../utils/types'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../../../services/store'
 import { removeIngredient } from '../../../../services/actions/burgerConstructor'
 import style from './style.module.css'
 

@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'
 
 interface IProtectedRoute {
   path: string
@@ -8,7 +8,6 @@ interface IProtectedRoute {
 }
 
 const ProtectedRoute: FC<IProtectedRoute> = ({ children, ...rest }) => {
-  // @ts-ignore
   const user = useSelector(state => state.user)
 
   return (

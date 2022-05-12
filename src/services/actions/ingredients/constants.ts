@@ -1,4 +1,4 @@
-import { IFetchIngredients } from '../../../utils/types'
+import { IIngredient } from '../../../utils/types'
 
 export const SET_INGREDIENTS_LOADING: 'SET_INGREDIENTS_LOADING' = 'SET_INGREDIENTS_LOADING'
 export const SET_INGREDIENTS: 'SET_INGREDIENTS' = 'SET_INGREDIENTS'
@@ -10,7 +10,7 @@ export interface ISetIngredientsLoading {
 
 export interface ISetIngredients {
   readonly type: typeof SET_INGREDIENTS
-  data: Array<IFetchIngredients>
+  data: Array<IIngredient>
 }
 
 export type TIngredientsActions =

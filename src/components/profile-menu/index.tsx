@@ -1,5 +1,5 @@
 import React, {FC} from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../services/store'
 import { NavLink } from 'react-router-dom'
 import { logOut } from '../../services/actions/user'
 import { WS_USER_ORDERS_CONNECTION_CLOSED } from '../../services/actions/wsUserOrders'

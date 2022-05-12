@@ -1,5 +1,4 @@
 import { FC, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Price from '../../components/price'
 import OrderInfoIngredient from '../../components/order-info-ingredient'
@@ -7,8 +6,9 @@ import SimpleBar from 'simplebar-react'
 import { orderDate } from '../../helpers/functions'
 import { fetchIngredients } from '../../services/actions/ingredients'
 import { WS_ORDERS_CONNECTION_START } from '../../services/actions/wsOrders'
-import { useSelector } from '../../services/store'
+import { useSelector, useDispatch } from '../../services/store'
 import styles from './style.module.css'
+import { IIngredient } from '../../utils/types'
 
 interface IOrderInfo {
   notInModal?: boolean
@@ -31,7 +31,6 @@ const OrderInfoPage: FC<IOrderInfo> = ({ notInModal, isPrivate }) => {
 
   useEffect(
     () => {
-      // @ts-ignore
       if (!ingredients.data.length && !ingredients.isLoading) {
         dispatch(fetchIngredients())
       }
@@ -49,20 +48,16 @@ const OrderInfoPage: FC<IOrderInfo> = ({ notInModal, isPrivate }) => {
     return <></>
   }
 
-  // @ts-ignore
   const status = order && order.status === 'done' ? 'Выполнен' : 'Готовится'
-  const orderIngredients = order && order.ingredients.reduce((acc, ingredientId) => {
-    // @ts-ignore
+  const orderIngredients = order && order.ingredients.reduce((acc: Array<IIngredient>, ingredientId) => {
     const ingredient = ingredients.data.find(ingredient => ingredient._id === ingredientId)
 
     if (ingredient) {
-      // @ts-ignore
       acc.push(ingredient)
     }
 
     return acc
   }, [])
-  // @ts-ignore
   const getOrderSum = orderIngredients ? orderIngredients.reduce((acc, item) => acc + item.price, 0) : 0
   const uniqIngredientsId = Array.from(new Set(order.ingredients))
 

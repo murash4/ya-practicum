@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from '../../services/store'
+import { useSelector, useDispatch } from '../../services/store'
 import OrderFeed from '../../components/order-feed'
 import mainStyles from '../IngredientsConstructorPage/style.module.css'
 import SimpleBar from 'simplebar-react'

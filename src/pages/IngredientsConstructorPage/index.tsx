@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../services/store'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import BurgerIngredients from '../../components/burger-ingredients'
@@ -8,7 +8,6 @@ import { fetchIngredients } from '../../services/actions/ingredients'
 import styles from './style.module.css'
 
 function IngredientsConstructorPage () {
-  // @ts-ignore
   const { ingredients } = useSelector(state => state)
   const dispatch = useDispatch()
 

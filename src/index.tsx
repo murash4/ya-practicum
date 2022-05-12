@@ -22,7 +22,7 @@ const enhancer = composeEnhancers(applyMiddleware(
   socketMiddleware('wss://norma.nomoreparties.space/orders/all'),
   userSocketMiddleware('wss://norma.nomoreparties.space/orders')
 ))
-const store = createStore(
+export const store = createStore(
   rootReducer,
   enhancer
 )

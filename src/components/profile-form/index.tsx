@@ -1,10 +1,9 @@
 import React, { SyntheticEvent, useCallback, useRef, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from '../../services/store'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { editUser } from '../../services/actions/user'
 
 export default function ProfileForm () {
-  // @ts-ignore
   const user = useSelector(state => state.user)
   const [nameValue, setNameValue] = React.useState('')
   const [emailValue, setEmailValue] = React.useState('')
@@ -44,8 +43,8 @@ export default function ProfileForm () {
    * Сброс измененных данных пользователя
    */
   const resetUser = useCallback(() => {
-    setNameValue(user.data.name)
-    setEmailValue(user.data.email)
+    setNameValue(user?.data?.name || '')
+    setEmailValue(user?.data?.email || '')
     setNameDisabled(true)
     setEmailDisabled(true)
     setPasswordDisabled(true)
@@ -82,8 +81,8 @@ export default function ProfileForm () {
   /**
    * Флаг, что форма была изменена
    */
-  const isFormChanged = nameValue !== user.data.name ||
-    emailValue !== user.data.email
+  const isFormChanged = nameValue !== user?.data?.name ||
+    emailValue !== user?.data?.email
 
   useEffect(() => {
     resetUser()

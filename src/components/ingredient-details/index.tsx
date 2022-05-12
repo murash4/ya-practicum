@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from '../../services/store'
 import { useParams } from 'react-router-dom'
 import { fetchIngredients } from '../../services/actions/ingredients'
 import style from './style.module.css'
@@ -11,7 +11,6 @@ type TUseParams = {
 
 export default function IngredientDetails () {
   const { id } = useParams<TUseParams>()
-  // @ts-ignore
   const { ingredients, ingredientDetails } = useSelector(state => state)
   const dispatch = useDispatch()
   const selectedIngredient = (ingredients.data.length && id) ? ingredients.data.find((item: IIngredient) => item._id === id) : ingredientDetails

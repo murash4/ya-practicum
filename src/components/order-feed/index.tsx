@@ -5,7 +5,7 @@ import {
   useHistory
 } from 'react-router-dom'
 import { orderDate } from '../../helpers/functions'
-import { TLocation } from '../../utils/types'
+import { IIngredient, TLocation } from '../../utils/types'
 import { TWsOrder } from '../../services/reducers/wsOrders'
 import { useSelector } from '../../services/store'
 import styles from './style.module.css'
@@ -21,10 +21,8 @@ const OrderFeed: FC<IOrderFeed> = ({ isPublic, order }) => {
   const ingredients = useSelector(state => state.ingredients.data)
 
   const getImage = (id: string) => {
-    // @ts-ignore
     const result = ingredients.find(ingredient => ingredient._id === id)
 
-    // @ts-ignore
     return result ? result.image_mobile : ''
   }
 
@@ -54,18 +52,15 @@ const OrderFeed: FC<IOrderFeed> = ({ isPublic, order }) => {
     }
   }
 
-  const orderIngredients = order.ingredients.reduce((acc, ingredientId) => {
-    // @ts-ignore
+  const orderIngredients = order.ingredients.reduce((acc: Array<IIngredient>, ingredientId) => {
     const ingredient = ingredients.find(ingredient => ingredient._id === ingredientId)
 
     if (ingredient) {
-      // @ts-ignore
       acc.push(ingredient)
     }
 
     return acc
   }, [])
-  // @ts-ignore
   const getOrderSum = orderIngredients ? orderIngredients.reduce((acc, item) => acc + item.price, 0) : 0
 
   return (
