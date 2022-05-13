@@ -6,11 +6,12 @@ import { Provider } from 'react-redux'
 import { rootReducer } from './services/reducers'
 import App from './components/app'
 import { socketMiddleware } from './middleware/socketMiddleware'
-import { userSocketMiddleware } from './middleware/userSocketMiddleware'
+import { wsActions } from './services/actions/wsOrders'
 import './index.css'
 import 'simplebar/dist/simplebar.min.css'
 import './assets/css/simplebar.css'
 
+const wsBaseUrl = 'wss://norma.nomoreparties.space/orders'
 const composeEnhancers =
   // @ts-ignore
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -19,8 +20,7 @@ const composeEnhancers =
     : compose
 const enhancer = composeEnhancers(applyMiddleware(
   thunk,
-  socketMiddleware('wss://norma.nomoreparties.space/orders/all'),
-  userSocketMiddleware('wss://norma.nomoreparties.space/orders')
+  socketMiddleware(`${wsBaseUrl}`, wsActions)
 ))
 export const store = createStore(
   rootReducer,

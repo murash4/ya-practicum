@@ -14,7 +14,6 @@ import { TIngredientsActions } from './actions/ingredients/constants'
 import { TOrderDetailsActions } from './actions/orderDetails/constants'
 import { TUserActions } from './actions/user/constants'
 import { TWsOrdersActions } from './actions/wsOrders'
-import { TWsUserOrdersActions } from './actions/wsUserOrders'
 
 export type TRootState = ReturnType<typeof rootReducer>
 
@@ -25,7 +24,6 @@ export type TApplicationActions =
   | TOrderDetailsActions
   | TUserActions
   | TWsOrdersActions
-  | TWsUserOrdersActions
 
 export const useSelector: TypedUseSelectorHook<TRootState> = useSelectorHook
 

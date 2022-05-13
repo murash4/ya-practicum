@@ -107,7 +107,6 @@ function AppInner () {
         >
           <OrderInfoPage
             notInModal={true}
-            isPrivate={true}
           />
         </ProtectedRoute>
         <Route>
@@ -140,7 +139,7 @@ function AppInner () {
           exact={true}
         >
           <Modal close={() => history.goBack()}>
-            <OrderInfoPage isPrivate={true} />
+            <OrderInfoPage />
           </Modal>
         </ProtectedRoute>
       }

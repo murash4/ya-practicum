@@ -4,7 +4,7 @@ import OrderFeed from '../../components/order-feed'
 import mainStyles from '../IngredientsConstructorPage/style.module.css'
 import SimpleBar from 'simplebar-react'
 import styles from './style.module.css'
-import { WS_ORDERS_CONNECTION_START } from '../../services/actions/wsOrders'
+import { WS_ORDERS_CLOSE_CONNECTION, WS_ORDERS_CONNECTION_START } from '../../services/actions/wsOrders'
 import { fetchIngredients } from '../../services/actions/ingredients'
 import { TWsOrder } from '../../services/reducers/wsOrders'
 
@@ -21,6 +21,12 @@ const FeedPage = () => {
 
       if (!wsOrders.wsConnected) {
         dispatch({ type: WS_ORDERS_CONNECTION_START })
+      }
+
+      return () => {
+        if (wsOrders.wsConnected) {
+          dispatch({ type: WS_ORDERS_CLOSE_CONNECTION })
+        }
       }
     },
     [dispatch, ingredients.data.length, ingredients.isLoading, wsOrders.wsConnected]

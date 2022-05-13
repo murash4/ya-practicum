@@ -12,22 +12,18 @@ import { IIngredient } from '../../utils/types'
 
 interface IOrderInfo {
   notInModal?: boolean
-  isPrivate?: boolean
 }
 
 type TUseParams = {
   id: string
 }
 
-const OrderInfoPage: FC<IOrderInfo> = ({ notInModal, isPrivate }) => {
+const OrderInfoPage: FC<IOrderInfo> = ({ notInModal }) => {
   const { id } = useParams<TUseParams>()
   const dispatch = useDispatch()
   const wsOrders = useSelector(state => state.wsOrders)
-  const wsUserOrders = useSelector(state => state.wsUserOrders)
   const ingredients = useSelector(state => state.ingredients)
   const numberClass = notInModal ? styles.center : ''
-
-  const orders = isPrivate ? wsUserOrders : wsOrders
 
   useEffect(
     () => {
@@ -35,14 +31,14 @@ const OrderInfoPage: FC<IOrderInfo> = ({ notInModal, isPrivate }) => {
         dispatch(fetchIngredients())
       }
 
-      if (!orders.wsConnected && notInModal) {
+      if (!wsOrders.wsConnected && notInModal) {
         dispatch({ type: WS_ORDERS_CONNECTION_START })
       }
     },
-    [dispatch, ingredients.data.length, ingredients.isLoading, orders.wsConnected, notInModal]
+    [dispatch, ingredients.data.length, ingredients.isLoading, wsOrders.wsConnected, notInModal]
   )
 
-  const order = orders.orders.filter(order => order._id === id)[0]
+  const order = wsOrders.orders.filter(order => order._id === id)[0]
 
   if (!order) {
     return <></>

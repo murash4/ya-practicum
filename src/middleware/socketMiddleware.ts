@@ -1,14 +1,6 @@
 import type { Middleware, MiddlewareAPI } from 'redux'
 import { Dispatch } from 'redux'
 import type { TWsOrdersState } from '../services/reducers/wsOrders'
-import {
-  WS_ORDERS_CONNECTION_START,
-  WS_ORDERS_CONNECTION_SUCCESS,
-  WS_ORDERS_CONNECTION_ERROR,
-  WS_ORDERS_GET_MESSAGE,
-  WS_ORDERS_CONNECTION_CLOSED,
-  WS_ORDERS_SEND_MESSAGE
-} from '../services/actions/wsOrders'
 import { TWsOrder } from '../services/reducers/wsOrders'
 
 export interface IWsOrders {
@@ -21,26 +13,34 @@ export interface IWsOrders {
 interface IWsOrdersActions {
   type: string
   payload?: IWsOrders | string
+  accessToken?: string
 }
 
-export const socketMiddleware = (wsUrl: string): Middleware => {
+export const socketMiddleware = (wsUrl: string, wsActions: Record<string, string>): Middleware => {
   return ((store: MiddlewareAPI<Dispatch, TWsOrdersState>) => {
-    let socket: WebSocket | null = null;
+    let socket: WebSocket | null = null
+    let accessToken
+    const { wsInit, wsSendMessage, onOpen, close, onClose, onError, onMessage } = wsActions
 
     return next => (action: IWsOrdersActions) => {
       const { dispatch } = store
       const { type, payload } = action
 
-      if (type === WS_ORDERS_CONNECTION_START) {
+      if (type === wsInit) {
         // объект класса WebSocket
-        socket = new WebSocket(wsUrl)
-      }
-      if (socket) {
+        accessToken = action.accessToken
 
+        const query = accessToken ? `?token=${accessToken}` : ''
+        const url = accessToken ? wsUrl : `${wsUrl}/all`
+
+        socket = new WebSocket(`${url}${query}`)
+      }
+
+      if (socket) {
         // функция, которая вызывается при открытии сокета
         socket.onopen = event => {
           dispatch({
-            type: WS_ORDERS_CONNECTION_SUCCESS,
+            type: onOpen,
             payload: event
           })
         }
@@ -48,7 +48,7 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
         // функция, которая вызывается при ошибке соединения
         socket.onerror = event => {
           dispatch({
-            type: WS_ORDERS_CONNECTION_ERROR,
+            type: onError,
             payload: event
           })
         }
@@ -56,22 +56,25 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
         // функция, которая вызывается при получения события от сервера
         socket.onmessage = ({ data }) => {
           dispatch({
-            type: WS_ORDERS_GET_MESSAGE,
+            type: onMessage,
             payload: JSON.parse(data)
           })
         }
         // функция, которая вызывается при закрытии соединения
         socket.onclose = event => {
           dispatch({
-            type: WS_ORDERS_CONNECTION_CLOSED,
+            type: onClose,
             payload: event
           })
         }
 
-        if (type === WS_ORDERS_SEND_MESSAGE) {
-          const message = payload
+        if (type === close) {
+          socket.close()
+        }
+
+        if (type === wsSendMessage) {
           // функция для отправки сообщения на сервер
-          socket.send(JSON.stringify(message))
+          socket.send(JSON.stringify(payload))
         }
       }
 
