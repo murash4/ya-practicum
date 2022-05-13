@@ -107,6 +107,7 @@ function AppInner () {
         >
           <OrderInfoPage
             notInModal={true}
+            isPrivate={true}
           />
         </ProtectedRoute>
         <Route>

@@ -5,20 +5,22 @@ import OrderInfoIngredient from '../../components/order-info-ingredient'
 import SimpleBar from 'simplebar-react'
 import { orderDate } from '../../helpers/functions'
 import { fetchIngredients } from '../../services/actions/ingredients'
-import { WS_ORDERS_CONNECTION_START } from '../../services/actions/wsOrders'
+import { WS_ORDERS_CLOSE_CONNECTION, WS_ORDERS_CONNECTION_START } from '../../services/actions/wsOrders'
 import { useSelector, useDispatch } from '../../services/store'
 import styles from './style.module.css'
 import { IIngredient } from '../../utils/types'
+import {cookie} from "../../utils/cookie";
 
 interface IOrderInfo {
   notInModal?: boolean
+  isPrivate?: boolean
 }
 
 type TUseParams = {
   id: string
 }
 
-const OrderInfoPage: FC<IOrderInfo> = ({ notInModal }) => {
+const OrderInfoPage: FC<IOrderInfo> = ({ notInModal, isPrivate }) => {
   const { id } = useParams<TUseParams>()
   const dispatch = useDispatch()
   const wsOrders = useSelector(state => state.wsOrders)
@@ -32,7 +34,16 @@ const OrderInfoPage: FC<IOrderInfo> = ({ notInModal }) => {
       }
 
       if (!wsOrders.wsConnected && notInModal) {
-        dispatch({ type: WS_ORDERS_CONNECTION_START })
+        dispatch({
+          type: WS_ORDERS_CONNECTION_START,
+          accessToken: isPrivate ? cookie.get('token') : undefined
+        })
+      }
+
+      return () => {
+        if (wsOrders.wsConnected) {
+          dispatch({ type: WS_ORDERS_CLOSE_CONNECTION })
+        }
       }
     },
     [dispatch, ingredients.data.length, ingredients.isLoading, wsOrders.wsConnected, notInModal]
