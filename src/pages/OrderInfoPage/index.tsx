@@ -46,7 +46,7 @@ const OrderInfoPage: FC<IOrderInfo> = ({ notInModal, isPrivate }) => {
         }
       }
     },
-    [dispatch, ingredients.data.length, ingredients.isLoading, wsOrders.wsConnected, notInModal]
+    [dispatch, ingredients.data.length, ingredients.isLoading, wsOrders.wsConnected, notInModal, isPrivate]
   )
 
   const order = wsOrders.orders.filter(order => order._id === id)[0]
