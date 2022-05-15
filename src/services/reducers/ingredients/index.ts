@@ -5,7 +5,7 @@ import {
 } from '../../actions/ingredients/constants'
 import { IIngredient } from '../../../utils/types'
 
-interface IIngredientsState {
+export interface IIngredientsState {
   data: Array<IIngredient>
   isLoading: boolean
 }

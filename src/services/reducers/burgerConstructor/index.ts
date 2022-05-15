@@ -9,7 +9,7 @@ import {
 } from '../../actions/burgerConstructor/constants'
 import { IIngredient } from '../../../utils/types'
 
-interface IBurgerConstructorState {
+export interface IBurgerConstructorState {
   items: Array<IIngredient>
   bun: null | IIngredient
   count: Record<string, number>

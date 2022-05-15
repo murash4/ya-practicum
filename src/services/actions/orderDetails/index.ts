@@ -6,11 +6,21 @@ import {
 } from './constants'
 import { apiUrl } from '../../../utils/api'
 import { checkResponse } from '../../../helpers/api'
-import { Dispatch } from 'redux'
-import {cookie} from "../../../utils/cookie";
+import { cookie } from '../../../utils/cookie'
+import { TDispatchWithThunk } from '../../store'
+import { IOrderDetailsState } from '../../reducers/orderDetails'
+import { ThunkAction } from 'redux-thunk'
+import { TUserActions } from '../user/constants'
 
-export function fetchOrder (ingredients: string) {
-  return async (dispatch: Dispatch) => {
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  IOrderDetailsState,
+  unknown,
+  TUserActions
+>
+
+export function fetchOrder (ingredients: string): AppThunk<Promise<void>> {
+  return async (dispatch: TDispatchWithThunk) => {
     dispatch({
       type: CLEAR_ORDER_DETAILS_ERROR
     })

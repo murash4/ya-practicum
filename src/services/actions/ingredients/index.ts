@@ -1,15 +1,25 @@
 import { SET_INGREDIENTS_LOADING, SET_INGREDIENTS} from './constants'
+import { IIngredientsState } from '../../reducers/ingredients'
 import { apiUrl } from '../../../utils/api'
 import { checkResponse } from '../../../helpers/api'
-import { Dispatch } from 'redux'
-import { IFetchIngredients } from "../../../utils/types";
+import { IFetchIngredients } from '../../../utils/types'
+import { TDispatchWithThunk } from '../../store'
+import { ThunkAction } from 'redux-thunk'
+import { TUserActions } from '../user/constants'
 
 interface IIngredientsResponse {
   data: Array<IFetchIngredients>
 }
 
-export function fetchIngredients () {
-  return async (dispatch: Dispatch) => {
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  IIngredientsState,
+  unknown,
+  TUserActions
+>
+
+export function fetchIngredients (): AppThunk<Promise<void>> {
+  return async (dispatch: TDispatchWithThunk) => {
     dispatch({
       type: SET_INGREDIENTS_LOADING,
       value: true

@@ -9,7 +9,7 @@ import { WS_ORDERS_CLOSE_CONNECTION, WS_ORDERS_CONNECTION_START } from '../../se
 import { useSelector, useDispatch } from '../../services/store'
 import styles from './style.module.css'
 import { IIngredient } from '../../utils/types'
-import {cookie} from "../../utils/cookie";
+import { cookie } from '../../utils/cookie'
 
 interface IOrderInfo {
   notInModal?: boolean

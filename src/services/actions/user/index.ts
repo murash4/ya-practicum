@@ -4,13 +4,15 @@ import {
   SET_USER_DATA_ERROR,
   SET_USER_MESSAGE,
   CLEAR_USER_DATA,
-  TUserActions, IUserData
+  TUserActions,
+  IUserData
 } from './constants'
 import { IUserState } from '../../reducers/user'
 import { apiUrl, authUrl } from '../../../utils/api'
 import { cookie } from '../../../utils/cookie'
 import { checkResponse } from '../../../helpers/api'
 import { ThunkAction } from 'redux-thunk'
+import { TDispatchWithThunk } from '../../store'
 
 interface ITokens {
   accessToken: string,
@@ -28,7 +30,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
  * Обновление токена
  */
 export const updateToken = (callback: Function): AppThunk<Promise<void>> => {
-  return async dispatch => {
+  return async (dispatch: TDispatchWithThunk) => {
     dispatch({
       type: SET_USER_LOADING,
       value: true

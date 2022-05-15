@@ -5,7 +5,7 @@ import {
   CLEAR_ORDER_DETAILS_ERROR, TOrderDetailsActions, IOrderDetailsData
 } from '../../actions/orderDetails/constants'
 
-interface IOrderDetailsState {
+export interface IOrderDetailsState {
   data: IOrderDetailsData | null,
   isLoading: boolean,
   error: boolean
