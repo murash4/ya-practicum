@@ -1,12 +1,27 @@
-import { ADD_BUN, ADD_NOT_BUN, REMOVE_BUN, REMOVE_NOT_BUN, SET_INGREDIENT, CLEAR_CONSTRUCTOR } from '../../actions/burgerConstructor/constants'
+import {
+  ADD_BUN,
+  ADD_NOT_BUN,
+  REMOVE_BUN,
+  REMOVE_NOT_BUN,
+  SET_INGREDIENT,
+  CLEAR_CONSTRUCTOR,
+  TBurgerConstructorActions
+} from '../../actions/burgerConstructor/constants'
+import { IIngredient } from '../../../utils/types'
 
-const initialState = {
+export interface IBurgerConstructorState {
+  items: Array<IIngredient>
+  bun: null | IIngredient
+  count: Record<string, number>
+}
+
+const initialState: IBurgerConstructorState = {
   items: [],
   bun: null,
   count: {}
 }
 
-export const burgerConstructorReducer = (state = initialState, action) => {
+export const burgerConstructorReducer = (state = initialState, action: TBurgerConstructorActions): IBurgerConstructorState => {
   switch (action.type) {
     case SET_INGREDIENT: {
       return {

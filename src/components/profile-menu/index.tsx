@@ -1,9 +1,13 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, {FC} from 'react'
+import { useDispatch } from '../../services/store'
 import { NavLink } from 'react-router-dom'
 import { logOut } from '../../services/actions/user'
 
-export default function ProfileMenu () {
+interface IProfileMenu {
+  text: string
+}
+
+const ProfileMenu: FC<IProfileMenu> = ({ text }) => {
   const dispatch = useDispatch()
 
   const userLogOut = (): void => {
@@ -34,8 +38,10 @@ export default function ProfileMenu () {
         </li>
       </ul>
       <p className="text text_type_main-default text_color_inactive">
-        В этом разделе вы можете изменить свои персональные данные
+        {text}
       </p>
     </div>
   )
 }
+
+export default ProfileMenu

@@ -16,13 +16,15 @@ import {
   ProfilePage,
   ProfileOrdersPage,
   IngredientsPage,
+  FeedPage,
+  OrderInfoPage,
   Page404
 } from '../../pages'
 import AppHeader from '../app-header'
 import IngredientDetails from '../ingredient-details'
 import Modal from '../hocs/modal'
 import { CLEAR_INGREDIENT_DETAILS } from '../../services/actions/ingredientDetails'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../services/store'
 import { TLocation } from '../../utils/types'
 
 function App () {
@@ -67,6 +69,14 @@ function AppInner () {
         <Route path="/ingredients/:id">
           <IngredientsPage />
         </Route>
+        <Route
+          exact
+          path="/feed"
+          children={<FeedPage />}
+        />
+        <Route path="/feed/:id">
+          <OrderInfoPage notInModal={true} />
+        </Route>
         <Route path="/login">
           <LoginPage />
         </Route>
@@ -91,6 +101,15 @@ function AppInner () {
         >
           <ProfileOrdersPage />
         </ProtectedRoute>
+        <ProtectedRoute
+          path="/profile/orders/:id"
+          exact={true}
+        >
+          <OrderInfoPage
+            notInModal={true}
+            isPrivate={true}
+          />
+        </ProtectedRoute>
         <Route>
           <Page404 />
         </Route>
@@ -105,6 +124,25 @@ function AppInner () {
             <IngredientDetails />
           </Modal>
         </Route>
+      }
+
+      {backgroundLocation &&
+        <Route path="/feed/:id">
+          <Modal close={() => history.goBack()}>
+            <OrderInfoPage />
+          </Modal>
+        </Route>
+      }
+
+      {backgroundLocation &&
+        <ProtectedRoute
+          path="/profile/orders/:id"
+          exact={true}
+        >
+          <Modal close={() => history.goBack()}>
+            <OrderInfoPage />
+          </Modal>
+        </ProtectedRoute>
       }
     </div>
   )

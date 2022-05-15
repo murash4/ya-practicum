@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../../services/store'
 import { useHistory } from 'react-router-dom'
-import { fetchOrder } from  '../../../services/actions/orderDetails'
+import { fetchOrder } from '../../../services/actions/orderDetails'
 import { CLEAR_CONSTRUCTOR } from '../../../services/actions/burgerConstructor/constants'
 import {
   Button,
@@ -13,13 +13,9 @@ import style from './style.module.css'
 import { IIngredient } from '../../../utils/types'
 
 export default function ConstructorFooter () {
-  // @ts-ignore
   const user = useSelector(state => state.user)
-  // @ts-ignore
   const { isLoading, error } = useSelector(state => state.orderDetails)
-  // @ts-ignore
   const { items, bun } = useSelector(state => state.burgerConstructor)
-  // @ts-ignore
   const order = useSelector(state => state.orderDetails.data)
   const dispatch = useDispatch()
   const history = useHistory()
@@ -63,7 +59,7 @@ export default function ConstructorFooter () {
   const getAllIds = (): Array<string> => {
     const array = [...items, bun]
 
-    return array.map(item => item._id)
+    return array.map(item => item ? item._id : '')
   }
 
   /**

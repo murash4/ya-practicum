@@ -1,10 +1,10 @@
 import style from './style.module.css'
 import checkboxImg from '../../images/done.png'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'
 
 export default function OrderDetails () {
-  // @ts-ignore
-  const { number } = useSelector(state => state.orderDetails.data.order)
+  const order = useSelector(state => state.orderDetails.data?.order)
+  const number = order?.number || 0
 
   return (
     <div className={`${style.order_details} pt-30 pb-30`}>

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'
 import SimpleBar from 'simplebar-react'
 import { throttle } from 'lodash'
 import IngredientList from './ingredient-list'
 import Tabs from './tabs'
 import style from './style.module.css'
-import { IIngredient, TTypeName } from '../../utils/types'
+import {TTypeName} from "../../utils/types";
 
 const typesName = {
   bun: 'Булки',
@@ -14,7 +14,6 @@ const typesName = {
 }
 
 export default function BurgerIngredients () {
-  // @ts-ignore
   const ingredients = useSelector(state => state.ingredients.data)
   const [currentIngredientType, setCurrent] = React.useState('bun')
   const scrollableNodeRef = useRef<HTMLDivElement>()
@@ -39,7 +38,7 @@ export default function BurgerIngredients () {
    * Возвращает все названия типов ингредиентов
    * @return {array}
    */
-  const ingredientTypes = ingredients.reduce((acc: Array<string>, item: IIngredient) => {
+  const ingredientTypes = ingredients.reduce((acc: Array<TTypeName>, item) => {
     if (!acc.includes(item.type)) {
       acc.push(item.type)
     }
@@ -90,8 +89,8 @@ export default function BurgerIngredients () {
         className={style.simplebar}
       >
         {
-          ingredientTypes.map((name: TTypeName) => {
-            const filteredData = ingredients.filter((ingredient: IIngredient) => ingredient.type === name)
+          ingredientTypes.map((name) => {
+            const filteredData = ingredients.filter((ingredient) => ingredient.type === name)
 
             return (
               <IngredientList

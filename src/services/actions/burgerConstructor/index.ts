@@ -1,7 +1,9 @@
 import { ADD_BUN, ADD_NOT_BUN, REMOVE_BUN, REMOVE_NOT_BUN } from './constants'
+import { IIngredient } from '../../../utils/types'
+import { TDispatchWithThunk } from '../../store'
 
-export function addIngredient (ingredient) {
-  return dispatch => {
+export function addIngredient (ingredient: IIngredient) {
+  return (dispatch: TDispatchWithThunk) => {
     if (ingredient.type !== 'bun') {
       dispatch({
         type: ADD_NOT_BUN,
@@ -20,8 +22,8 @@ export function addIngredient (ingredient) {
   }
 }
 
-export function removeIngredient (ingredient) {
-  return dispatch => {
+export function removeIngredient (ingredient: IIngredient) {
+  return (dispatch: TDispatchWithThunk) => {
     if (ingredient.type === 'bun') {
       dispatch({
         type: REMOVE_BUN,

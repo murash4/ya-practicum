@@ -2,16 +2,22 @@ import {
   SET_ORDER_DETAILS_LOADING,
   SET_ORDER_DETAILS,
   SET_ORDER_DETAILS_ERROR,
-  CLEAR_ORDER_DETAILS_ERROR
+  CLEAR_ORDER_DETAILS_ERROR, TOrderDetailsActions, IOrderDetailsData
 } from '../../actions/orderDetails/constants'
 
-const initialState = {
+export interface IOrderDetailsState {
+  data: IOrderDetailsData | null,
+  isLoading: boolean,
+  error: boolean
+}
+
+const initialState: IOrderDetailsState = {
   data: null,
   isLoading: false,
   error: false
 }
 
-export const orderDetailsReducer = (state = initialState, action) => {
+export const orderDetailsReducer = (state = initialState, action: TOrderDetailsActions): IOrderDetailsState => {
   switch (action.type) {
     case CLEAR_ORDER_DETAILS_ERROR: {
       return {

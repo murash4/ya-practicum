@@ -4,9 +4,11 @@ import ProfileForm from '../../components/profile-form'
 import './style.css'
 
 const ProfilePage = () => {
+  const menuText = 'В этом разделе вы можете изменить свои персональные данные'
+
   return (
     <div className="profile">
-      <ProfileMenu />
+      <ProfileMenu text={menuText} />
       <ProfileForm />
     </div>
   )

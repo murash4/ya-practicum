@@ -1,5 +1,5 @@
 import React, {useRef, useCallback, useEffect} from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../services/store'
 import { NavLink, Redirect, useLocation } from 'react-router-dom'
 import { TLocation, TTypePassword } from '../../utils/types'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -7,7 +7,6 @@ import { getUser, signUp } from '../../services/actions/user'
 import Preloader from '../../components/preloader'
 
 const RegisterPage = () => {
-  // @ts-ignore
   const user = useSelector(state => state.user)
   const [nameValue, setNameValue] = React.useState('')
   const [emailValue, setEmailValue] = React.useState('')
@@ -53,7 +52,6 @@ const RegisterPage = () => {
   // если пользователь существует, то уходит со страницы
   if (user.data) {
     return (
-      // @ts-ignore
       <Redirect to={ location.state?.from || '/' } />
     )
   }

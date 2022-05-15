@@ -1,0 +1,19 @@
+.cols {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 191px);
+}
+
+.col {
+  width: 50%;
+  height: 100%;
+}
+
+.ordersStatusCols {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ordersStatusCol {
+  width: 50%;
+}

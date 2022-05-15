@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../../../services/store'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDrag } from 'react-dnd'
 import { IIngredient } from '../../../../utils/types'
@@ -10,7 +10,6 @@ interface IIngredientItem {
 }
 
 export default function IngredientItem ({ item, showDetails }: IIngredientItem) {
-  // @ts-ignore
   const { count } = useSelector(state => state.burgerConstructor)
   const [, dragRef] = useDrag({
     type: 'ingredient',

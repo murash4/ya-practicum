@@ -4,8 +4,8 @@ type TSet = [
   string,
   any,
   {
-    expires: number
-  }
+    expires: Date
+  }?
 ]
 
 /**
@@ -14,8 +14,7 @@ type TSet = [
 export const cookie = {
   set (...args: TSet) {
     // установка expires по умолчанию
-    // @ts-ignore
-    args[2] = { expires: 9999, ...args[2] }
+    args[2] = { expires: new Date(9999999999999), ...args[2] }
 
     return jsCookie.set(...args)
   },
