@@ -10,7 +10,7 @@ export interface IIngredientsState {
   isLoading: boolean
 }
 
-const initialState: IIngredientsState = {
+export const initialState: IIngredientsState = {
   data: [],
   isLoading: false
 }
