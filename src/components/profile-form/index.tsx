@@ -127,7 +127,7 @@ export default function ProfileForm () {
           placeholder="Пароль"
           ref={passwordRef}
           value={passwordValue}
-          name="Пароль"
+          name="password"
           size="default"
           icon="EditIcon"
           disabled={passwordDisabled}

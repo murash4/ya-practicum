@@ -9,10 +9,15 @@ interface IModalContent {
 const ModalContent: FC<IModalContent> = (props) => {
   return (
     <div className={`${style.modal_content} pr-15 pl-15`}>
-      <CloseIcon
-        onClick={props.close}
-        type="primary"
-      />
+      <div
+        className={`${style.close}`}
+        data-test="modal-overlay"
+      >
+        <CloseIcon
+          type="primary"
+          onClick={props.close}
+        />
+      </div>
 
       <div>
         {props.children}
