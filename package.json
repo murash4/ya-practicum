@@ -37,7 +37,7 @@
     "eject": "react-scripts eject",
     "cypress": "cypress open cache clear",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build -r https://github.com/murash4/ya-practicum.git"
   },
   "eslintConfig": {
     "extends": [
