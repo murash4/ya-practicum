@@ -15,7 +15,7 @@ export interface IBurgerConstructorState {
   count: Record<string, number>
 }
 
-const initialState: IBurgerConstructorState = {
+export const initialState: IBurgerConstructorState = {
   items: [],
   bun: null,
   count: {}

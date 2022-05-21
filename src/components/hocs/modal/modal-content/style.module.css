@@ -9,7 +9,7 @@
   background-color: #1C1C21;
 }
 
-.modal_content > svg {
+.close {
   position: absolute;
   right: 40px;
   top: 60px;

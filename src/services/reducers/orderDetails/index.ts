@@ -11,7 +11,7 @@ export interface IOrderDetailsState {
   error: boolean
 }
 
-const initialState: IOrderDetailsState = {
+export const initialState: IOrderDetailsState = {
   data: null,
   isLoading: false,
   error: false

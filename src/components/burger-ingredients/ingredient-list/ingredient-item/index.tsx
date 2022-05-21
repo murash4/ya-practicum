@@ -20,6 +20,7 @@ export default function IngredientItem ({ item, showDetails }: IIngredientItem) 
     <div
       ref={dragRef}
       className={`${style.item} mb-8`}
+      data-test="ingredient"
       onClick={() => {showDetails(item)}}
     >
       {

@@ -84,7 +84,10 @@ export default function ConstructorFooter () {
 
   return (
    <>
-     <div className={`${style.footer} pl-4 pr-4`}>
+     <div
+       className={`${style.footer} pl-4 pr-4`}
+       data-test="footer-constructor"
+     >
        <div className={`${style.price_wrap} mr-10`}>
          <p className={`${style.all_sum} text text_type_digits-medium`}>
            {getAllSum()}

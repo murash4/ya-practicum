@@ -42,6 +42,7 @@ export default function ConstructorList () {
         ${style.list} mb-10
         ${isHover ? style.draging : ''}
       `}
+      data-test="drop-target"
     >
       {bun &&
         <ConstructorListItem

@@ -24,7 +24,7 @@ export type TWsOrdersState = {
   totalToday: number
 }
 
-const initialState: TWsOrdersState = {
+export const initialState: TWsOrdersState = {
   wsConnected: false,
   orders: [],
   error: null,

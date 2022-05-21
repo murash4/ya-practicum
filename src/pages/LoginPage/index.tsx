@@ -79,7 +79,7 @@ const LoginPage = () => {
             placeholder="Пароль"
             ref={passwordRef}
             value={passwordValue}
-            name="email"
+            name="password"
             size="default"
             icon={typePassword === 'password' ? 'ShowIcon' : 'HideIcon'}
             onIconClick={changeTypePassword}
